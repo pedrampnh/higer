@@ -816,19 +816,20 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
 .higer-shop button.hs-btn-gold:disabled{cursor:not-allowed;opacity:.5;filter:grayscale(.5);transform:none;box-shadow:none}
 .higer-shop .hs-badge{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:9999px;background:var(--hs-gold-500);color:var(--hs-navy-900);font-size:11px;font-weight:900;line-height:1}
 
-/* ---------- مسیر صفحه و پیام‌ها ---------- */
-.higer-shop .hs-crumbs{background:var(--hs-cream);border-bottom:1px solid var(--hs-line)}
-.higer-shop .hs-crumbs ol{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding-block:12px;font-size:12px;font-weight:700;color:var(--hs-navy-600)}
+/* ---------- مسیر صفحه (داخل سربرگ و روی همان پس‌زمینه) و پیام‌ها ---------- */
+.higer-shop .hs-crumbs{margin-bottom:32px;border-bottom:1px solid rgba(243,217,139,.16)}
+@media(min-width:1024px){.higer-shop .hs-crumbs{margin-bottom:44px}}
+.higer-shop .hs-crumbs ol{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding-block:12px;font-size:12px;font-weight:700;color:rgba(250,247,239,.74)}
 .higer-shop .hs-crumbs li{display:inline-flex;align-items:center;gap:6px}
 .higer-shop .hs-crumbs li+li::before{content:"‹";color:var(--hs-gold-500);font-weight:900}
-.higer-shop .hs-crumbs a:hover{color:var(--hs-gold-600)}
-.higer-shop .hs-crumbs [aria-current]{color:var(--hs-navy-900);font-weight:900}
-.higer-shop .hs-notices{padding-top:16px}
+.higer-shop .hs-crumbs a:hover{color:var(--hs-gold-300)}
+.higer-shop .hs-crumbs [aria-current]{color:var(--hs-cream);font-weight:900}
+.higer-shop .hs-notices{padding-block:16px 8px}
 .higer-shop .hs-notices :is(.woocommerce-message,.woocommerce-info,.woocommerce-error){display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin:0 0 8px;padding:14px 18px;border:1px solid var(--hs-line);border-radius:16px;background:#fff;font-size:13px;font-weight:700;box-shadow:0 10px 24px rgba(16,36,62,.06)}
 
 /* ---------- سربرگ فروشگاه و نوار دسته‌بندی سریع ---------- */
-.higer-shop .hs-hero{position:relative;overflow:hidden;padding-block:32px 24px;background:radial-gradient(960px 440px at 85% -10%,rgba(217,161,59,.18),transparent 60%),radial-gradient(800px 420px at -10% 110%,rgba(43,78,119,.35),transparent 55%),linear-gradient(160deg,#0b1a30 0%,#10243e 48%,#16304f 100%);color:var(--hs-cream)}
-@media(min-width:1024px){.higer-shop .hs-hero{padding-block:44px 28px}}
+.higer-shop .hs-hero{position:relative;overflow:hidden;padding-block:0 24px;background:radial-gradient(960px 440px at 85% -10%,rgba(217,161,59,.18),transparent 60%),radial-gradient(800px 420px at -10% 110%,rgba(43,78,119,.35),transparent 55%),linear-gradient(160deg,#0b1a30 0%,#10243e 48%,#16304f 100%);color:var(--hs-cream)}
+@media(min-width:1024px){.higer-shop .hs-hero{padding-block:0 28px}}
 .higer-shop .hs-hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(243,217,139,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(243,217,139,.045) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
 .higer-shop .hs-hero>*{position:relative}
 .higer-shop .hs-hero-grid{display:grid;gap:20px;align-items:center}
@@ -882,9 +883,9 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
   .higer-shop .hs-drawer-close,.higer-shop .hs-sidebar-foot{display:none!important}
 }
 @media(max-width:1023px){
-  .higer-shop .hs-sidebar{position:fixed;top:0;right:0;bottom:0;z-index:9995;display:flex;flex-direction:column;width:min(90vw,380px);border-radius:24px 0 0 24px;box-shadow:-20px 0 50px rgba(7,15,29,.45);transform:translateX(105%);visibility:hidden;transition:transform .28s cubic-bezier(.22,1,.36,1),visibility .28s}
+  .higer-shop .hs-sidebar{position:fixed;top:var(--hs-drawer-top,var(--hs-sticky-top,var(--wp-admin--admin-bar--height,0px)));right:0;bottom:0;z-index:9995;display:flex;flex-direction:column;overflow:hidden;width:min(90vw,380px);border-radius:24px 0 0 24px;box-shadow:-20px 0 50px rgba(7,15,29,.45);transform:translateX(105%);visibility:hidden;transition:transform .28s cubic-bezier(.22,1,.36,1),visibility .28s,top .15s ease}
   .higer-shop .hs-sidebar.is-open{transform:none;visibility:visible}
-  .higer-shop .hs-sidebar-body{flex:1;overflow-y:auto}
+  .higer-shop .hs-sidebar-body{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
 }
 .higer-shop .hs-sidebar-head{display:flex;flex-direction:column;gap:10px;padding:14px 16px;border-bottom:1px solid var(--hs-line);background:var(--hs-cream);position:sticky;top:0;z-index:6}
 .higer-shop .hs-sidebar-title{display:flex;align-items:center;gap:8px;color:var(--hs-navy-900)}
@@ -1000,9 +1001,27 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
 .higer-shop .hs-view-switch button{display:grid;place-items:center;width:32px;height:32px;border-radius:9px;color:var(--hs-navy-600)}
 .higer-shop .hs-view-switch button[aria-pressed="true"]{background:var(--hs-navy-900);color:var(--hs-gold-300)}
 
-/* نوار چسبنده فیلترهای فعال (دسکتاپ + داخل دراور موبایل) */
-.higer-shop .hs-active-bar{position:sticky;top:calc(var(--hs-sticky-top,var(--wp-admin--admin-bar--height,0px)) + var(--hs-tabs-h,58px));z-index:35;margin-bottom:16px;padding:10px 12px;border:1px dashed rgba(217,161,59,.6);border-radius:16px;background:rgba(255,253,246,.96);backdrop-filter:blur(8px);box-shadow:0 10px 26px rgba(16,36,62,.08)}
-.higer-shop .hs-sidebar .hs-active-bar{top:0;margin-bottom:0;border:0;border-top:1px dashed rgba(217,161,59,.45);border-radius:0;background:var(--hs-cream);box-shadow:none;z-index:5}
+/* نوار فیلترهای فعال بالای محصولات — چسبنده فقط در تبلت و دسکتاپ (≥۷۶۸px) */
+.higer-shop .hs-active-bar{position:relative;z-index:35;margin-bottom:16px;padding:10px 12px;border:1px dashed rgba(217,161,59,.6);border-radius:16px;background:rgba(255,253,246,.96);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 10px 26px rgba(16,36,62,.08)}
+@media(min-width:768px){
+  .higer-shop .hs-active-bar{position:sticky;top:calc(var(--hs-sticky-top,var(--wp-admin--admin-bar--height,0px)) + var(--hs-mbar-h,61px) + 10px);transition:top .15s ease}
+}
+@media(min-width:1024px){
+  .higer-shop .hs-active-bar{top:calc(var(--hs-sticky-top,var(--wp-admin--admin-bar--height,0px)) + 16px)}
+}
+
+/* فیلترهای فعال داخل سایدبار — فقط موبایل (<۷۶۸px) و چسبنده بالای دراور */
+@media(min-width:768px){
+  .higer-shop .hs-sidebar-head .hs-active-chips,
+  .higer-shop .hs-sidebar-head .hs-reset-link,
+  .higer-shop .hs-sidebar-head .hs-reset-link.is-visible{display:none!important}
+}
+@media(max-width:767px){
+  .higer-shop .hs-sidebar-head{flex:none;position:sticky;top:0;z-index:6;box-shadow:0 8px 18px rgba(16,36,62,.06)}
+  .higer-shop .hs-sidebar-head .hs-active-chips{max-height:92px;overflow-y:auto;scrollbar-width:thin;overscroll-behavior:contain}
+  .higer-shop .hs-sidebar-head .hs-active-chips:empty{display:none}
+  .higer-shop .hs-sidebar-head .hs-reset-link.is-visible{margin-top:0;align-self:flex-start}
+}
 .higer-shop .hs-active-bar-inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px}
 .higer-shop .hs-active-chips{display:flex;flex-wrap:wrap;gap:6px}
 .higer-shop button.hs-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border:1px solid rgba(217,161,59,.55);border-radius:9999px;background:#fdf3d8;font-size:11px;font-weight:800;color:var(--hs-navy-900);transition:background .15s}
@@ -1041,12 +1060,12 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
 .higer-shop [data-hs-cmp][aria-pressed="true"] .hs-cmp-off{display:none}
 
 .higer-shop .hs-card-body{display:flex;flex:1;flex-direction:column;gap:12px;padding:16px}
-.higer-shop .hs-card-title{position:relative;font-size:20px;font-weight:900;line-height:1.5;color:var(--hs-navy-900);padding-inline-start:16px}
-.higer-shop .hs-card-title::before{content:"";position:absolute;right:0;top:6px;bottom:6px;width:4px;border-radius:9999px;background:linear-gradient(180deg,var(--hs-gold-400),var(--hs-gold-600))}
-.higer-shop .hs-card-title a{display:inline-flex;align-items:center;gap:8px}
-.higer-shop .hs-card-title a::after{content:"";flex:none;width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 32% 32%,var(--hs-gold-200),var(--hs-gold-500) 72%);box-shadow:0 2px 6px rgba(217,161,59,.5)}
-.higer-shop .hs-card-title a:hover{color:var(--hs-gold-600)}
-.higer-shop .hs-card-sub{margin-top:2px;font-size:12px;font-weight:700;color:var(--hs-navy-600)}
+.higer-shop .hs-card-head{display:flex;flex-direction:column;gap:4px;padding-bottom:12px;border-bottom:1px solid var(--hs-line)}
+.higer-shop .hs-card-head h2.hs-card-title{margin:0;padding:0;font-size:19px;font-weight:900;line-height:1.45;letter-spacing:-.15px;color:var(--hs-navy-900)}
+.higer-shop .hs-card-title a{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;color:inherit;text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:5px;transition:color .2s,text-decoration-color .2s}
+.higer-shop .hs-card-title a:hover,.higer-shop .hs-card-title a:focus-visible{color:var(--hs-navy-700);text-decoration-color:var(--hs-gold-500)}
+@media(min-width:1024px){.higer-shop .hs-card-head h2.hs-card-title{font-size:21px}}
+.higer-shop .hs-card-head p.hs-card-sub{margin:0;padding:0;font-size:12px;font-weight:600;line-height:1.65;color:#6b7686;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:1;overflow:hidden}
 .higer-shop .hs-card-specs{display:flex;flex-wrap:wrap;gap:5px}
 .higer-shop .hs-card-specs li{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border-radius:9px;background:var(--hs-paper);font-size:10px;font-weight:800;line-height:1.6;color:var(--hs-navy-800)}
 .higer-shop .hs-card-specs li .hs-i{color:var(--hs-gold-600)}
@@ -1722,6 +1741,7 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
     var drawerBtn = one('[data-hs-drawer-open]');
     function setDrawer(open) {
       if (!sidebar) return;
+      if (open) syncStickyOffset();
       sidebar.classList.toggle('is-open', !!open);
       if (backdrop) backdrop.hidden = !open;
       if (drawerBtn) drawerBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
@@ -2081,6 +2101,8 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
 
     /* تشخیص خودکار ارتفاع هدر چسبنده سایت */
     var lastStickyTop = -1;
+    var lastDrawerTop = -1;
+    var lastMbarH = -1;
     function syncStickyOffset() {
       var adminH = 0;
       var adminBar = document.getElementById('wpadminbar');
@@ -2091,20 +2113,23 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
         }
       }
       var top = adminH;
+      var drawerTop = adminH;
       if (data.stickyOffset > 0) {
         top = data.stickyOffset + adminH;
+        drawerTop = top;
       } else {
         var minW = window.innerWidth * 0.5;
-        var nodes = document.querySelectorAll('header, [role="banner"], [data-elementor-type="header"], .elementor-location-header, .elementor-sticky, .elementor-sticky--active');
+        var nodes = document.querySelectorAll('header, [role="banner"], [data-elementor-type="header"], .elementor-location-header, .elementor-sticky, .elementor-sticky--active, .site-header, #masthead');
         for (var i = 0; i < nodes.length; i++) {
           var el = nodes[i];
           if (root.contains(el) || el.id === 'wpadminbar' || el.classList.contains('elementor-sticky__spacer')) continue;
           var cs = window.getComputedStyle(el);
           if (cs.display === 'none' || cs.visibility === 'hidden' || parseFloat(cs.opacity) === 0) continue;
-          var isFixed = cs.position === 'fixed' || cs.position === 'sticky' || el.classList.contains('elementor-sticky--active');
-          if (!isFixed) continue;
           var r = el.getBoundingClientRect();
-          if (r.height >= 24 && r.height <= 220 && r.width >= minW && r.top >= -4 && r.top <= 90 && r.bottom > top) {
+          if (r.height < 24 || r.height > 220 || r.width < minW || r.top < -4 || r.top > 90) continue;
+          if (r.bottom > drawerTop) drawerTop = r.bottom;
+          var isFixed = cs.position === 'fixed' || cs.position === 'sticky' || el.classList.contains('elementor-sticky--active');
+          if (isFixed && r.bottom > top) {
             top = r.bottom;
           }
         }
@@ -2113,6 +2138,17 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
       if (px !== lastStickyTop) {
         lastStickyTop = px;
         root.style.setProperty('--hs-sticky-top', px + 'px');
+      }
+      var dpx = Math.max(px, Math.floor(drawerTop));
+      if (dpx !== lastDrawerTop) {
+        lastDrawerTop = dpx;
+        root.style.setProperty('--hs-drawer-top', dpx + 'px');
+      }
+      var mbar = root.querySelector('.hs-mobile-bar');
+      var mh = mbar && mbar.offsetParent !== null ? Math.ceil(mbar.getBoundingClientRect().height) : 0;
+      if (mh !== lastMbarH) {
+        lastMbarH = mh;
+        root.style.setProperty('--hs-mbar-h', mh + 'px');
       }
     }
     syncStickyOffset();
@@ -2325,18 +2361,17 @@ if ( ! function_exists( 'higer_shop_render' ) ) {
 	<script type="application/json" data-hs-data><?php echo wp_json_encode( $payload, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT ); ?></script>
 	<?php if ( '' !== trim( $notices ) ) : ?><div class="hs-wrap hs-notices"><?php echo $notices; // phpcs:ignore ?></div><?php endif; ?>
 
-	<!-- ===== مسیر صفحه ===== -->
-	<nav class="hs-crumbs" aria-label="مسیر صفحه">
-		<ol class="hs-wrap">
-			<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>">خانه</a></li>
-			<?php foreach ( $ctx['crumbs'] as $crumb ) : ?>
-			<li<?php echo '' === $crumb['url'] ? ' aria-current="page"' : ''; ?>><?php if ( '' !== $crumb['url'] ) : ?><a href="<?php echo esc_url( $crumb['url'] ); ?>"><?php echo esc_html( $crumb['name'] ); ?></a><?php else : echo esc_html( $crumb['name'] ); endif; ?></li>
-			<?php endforeach; ?>
-		</ol>
-	</nav>
-
-	<!-- ===== سربرگ فروشگاه و نوار دسته‌بندی سریع ===== -->
+	<!-- ===== سربرگ فروشگاه (مسیر صفحه روی همان پس‌زمینه) و نوار دسته‌بندی سریع ===== -->
 	<header class="hs-hero">
+		<nav class="hs-crumbs" aria-label="مسیر صفحه">
+			<ol class="hs-wrap">
+				<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>">خانه</a></li>
+				<?php foreach ( $ctx['crumbs'] as $crumb ) : ?>
+				<li<?php echo '' === $crumb['url'] ? ' aria-current="page"' : ''; ?>><?php if ( '' !== $crumb['url'] ) : ?><a href="<?php echo esc_url( $crumb['url'] ); ?>"><?php echo esc_html( $crumb['name'] ); ?></a><?php else : echo esc_html( $crumb['name'] ); endif; ?></li>
+				<?php endforeach; ?>
+			</ol>
+		</nav>
+
 		<div class="hs-wrap hs-hero-grid">
 			<div class="hs-hero-copy">
 				<span class="hs-kicker is-dark"><?php echo higer_shop_icon( 'layers', 13 ); // phpcs:ignore ?> <span data-hs-hero-kicker><?php echo esc_html( $ctx['kicker'] ); ?></span> • <b data-hs-total-badge><?php echo esc_html( $total_fa ); ?> محصول</b></span>
