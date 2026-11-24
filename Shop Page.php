@@ -23,7 +23,10 @@
  *    و یک ویجت Shortcode در یک بخش تمام‌عرض قرار دهید:   [higer_shop]
  *    همچنین در برگه «فروشگاه» (/shop/) اگر جداگانه با المنتور ساخته شده،
  *    همین شورت‌کد [higer_shop] را قرار دهید.
- *  بدون المنتور: در تنظیمات پایین 'auto_replace' را true کنید.
+ *  صفحات دسته‌بندی (/product-category/...): به‌صورت خودکار با هدر و فوتر
+ *    فعلی سایت و با سربرگ اختصاصی هر دسته نمایش داده می‌شوند ('auto_replace_categories' => true).
+ *    اگر در قالب Product Archive المنتور شورت‌کد [higer_shop] بگذارید، خودکار بدون تکرار کار می‌کند.
+ *  صفحه اصلی فروشگاه بدون المنتور: در تنظیمات پایین 'auto_replace' را true کنید.
  *
  * ─── شورت‌کدها ───
  *  [higer_shop]                              تشخیص خودکار (همه محصولات / دسته‌بندی فعلی / جستجو)
@@ -50,7 +53,8 @@ function higer_shop_config() {
 		),
 
 		/* --- رفتار اسنیپت --- */
-		'auto_replace'     => false, // true = جایگزینی خودکار آرشیو پیش‌فرض ووکامرس (بدون المنتور)
+		'auto_replace'            => false, // true = جایگزینی خودکار صفحه اصلی فروشگاه (/shop/) بدون المنتور
+		'auto_replace_categories' => true,  // true = نمایش خودکار این طرح در همه صفحات دسته‌بندی (/product-category/...) با هدر و فوتر فعلی سایت
 		'shop_cache'       => 6,     // نگهداری کش کاتالوگ (ساعت)؛ با ویرایش هر محصول خودکار تازه می‌شود. ۰ = بدون کش
 		'sticky_offset'    => 0,     // فاصله از بالا برای هدر چسبنده سایت (پیکسل)؛ ۰ = تشخیص خودکار ارتفاع هدر
 		'hide_out_of_stock' => true,  // true = محصولات ناموجود به‌صورت پیش‌فرض از لیست پنهان می‌شوند
@@ -106,6 +110,110 @@ function higer_shop_config() {
 			'rebound'           => array( 'key' => 'rebond', 'title' => 'ریباند', 'text' => 'هسته ریباند از قطعات فوم فشرده‌شده ساخته می‌شود و فنر ندارد.' ),
 			'high-density-foam' => array( 'key' => 'foam', 'title' => 'فوم سنگین', 'text' => 'در این نوع تشک، هسته از فوم ساخته شده و فنر ندارد.' ),
 			'accessories'       => array( 'key' => 'accessory', 'title' => 'محصولات جانبی', 'text' => 'تاپر و محافظ تشک برای تکمیل و محافظت از سطح تشک.' ),
+		),
+
+		/* --- تنظیمات اختصاصی سربرگ (هیرو) هر دسته‌بندی (/product-category/...) ---
+		 * هر دسته‌بندی با تم رنگی ملایم، تیتر با بخش طلایی، ویژگی‌های کلیدی، توضیح
+		 * اختصاصی و نمای شماتیک ساختار خودش نمایش داده می‌شود. اگر در ووکامرس برای
+		 * دسته‌ای تصویر یا توضیح بلند (سئو) ثبت کرده باشید، خودکار استفاده می‌شود.
+		 */
+		'category_heroes' => array(
+			'mattress' => array(
+				'theme'       => 'mattress',
+				'kicker'      => 'مجموعه تشک‌های هیگر',
+				'title'       => 'انواع',
+				'accent'      => 'تشک‌های هیگر',
+				'title_after' => '',
+				'subtitle'    => 'تمامی مدل‌های فنری و بدون فنر هیگر در یک جا؛ بر اساس ساختار هسته، درجه سفتی، سایز تخت و بودجه مقایسه و انتخاب کنید.',
+				'highlights'  => array( 'فنری و بدون فنر', 'تولید در سایزهای نوزاد تا سوپرکینگ', 'امکان دوخت سفارشی ابعاد' ),
+				'art_label'   => 'کلکسیون کامل تشک‌های هیگر',
+				'finder_text' => 'مطمئن نیستید تشک فنری برای شما بهتر است یا بدون فنر؟ با چند سؤال بررسی کنید',
+				'show_finder' => true,
+			),
+			'spring' => array(
+				'theme'       => 'bonnell',
+				'kicker'      => 'تشک‌های دارای اسکلت فنری',
+				'title'       => 'تشک‌های',
+				'accent'      => 'فنری',
+				'title_after' => 'هیگر',
+				'subtitle'    => 'تشک‌های فنری هیگر در دو ساختار فنر متصل (شبکه یکپارچه) و فنر منفصل پاکتی عرضه می‌شوند؛ با گردش هوای مناسب، انعطاف‌پذیری دلپذیر و تنوع کامل در نرمی و قیمت.',
+				'highlights'  => array( 'گردش هوای بهتر در هسته', 'انواع فنر متصل و منفصل', 'تنوع بالا از خیلی نرم تا سفت' ),
+				'art_label'   => 'مقطع اسکلت تشک فنری',
+				'finder_text' => 'بین فنر متصل و فنر منفصل مردد هستید؟ در تشک‌سنج بررسی کنید',
+				'show_finder' => true,
+			),
+			'bonnell-spring' => array(
+				'theme'       => 'bonnell',
+				'kicker'      => 'زیرمجموعه تشک فنری',
+				'title'       => 'تشک‌های',
+				'accent'      => 'فنر متصل',
+				'title_after' => '',
+				'subtitle'    => 'در تشک‌های فنر متصل، فنرهای فولادی هسته به هم متصل‌اند و یک شبکه یکپارچه می‌سازند؛ با تهویه طبیعی هوا، فنریت متعادل و بازه گسترده‌ای از مدل‌های اقتصادی تا حرفه‌ای.',
+				'highlights'  => array( 'شبکه فنر یکپارچه و مقاوم', 'تهویه مناسب و خنک‌تر', 'تنوع بالای نرمی و قیمت' ),
+				'art_label'   => 'نمای شماتیک هسته فنر متصل',
+				'finder_text' => 'مطمئن نیستید کدام مدل فنر متصل با خواب شما جور است؟',
+				'show_finder' => true,
+			),
+			'pocket-spring' => array(
+				'theme'       => 'pocket',
+				'kicker'      => 'زیرمجموعه تشک فنری',
+				'title'       => 'تشک‌های',
+				'accent'      => 'فنر منفصل',
+				'title_after' => 'پاکتی',
+				'subtitle'    => 'هر فنر در یک پاکت پارچه‌ای مستقل قرار دارد و جدا از فنرهای کناری عمل می‌کند؛ مناسب برای کاهش انتقال حرکت در خواب دونفره و تطبیق نقطه‌ای با فرم بدن.',
+				'highlights'  => array( 'عملکرد مستقل هر فنر', 'کاهش انتقال حرکت دونفره', 'تطبیق نقطه‌ای با انحنای بدن' ),
+				'art_label'   => 'نمای شماتیک هسته فنر منفصل پاکتی',
+				'finder_text' => 'برای مقایسه این مدل با سایر ساختارها، تشک‌سنج را امتحان کنید',
+				'show_finder' => true,
+			),
+			'no-spring' => array(
+				'theme'       => 'foam',
+				'kicker'      => 'تشک‌های بدون اسکلت فلزی',
+				'title'       => 'تشک‌های',
+				'accent'      => 'بدون فنر',
+				'title_after' => '',
+				'subtitle'    => 'تشک‌های تمام‌فوم سنگین و ریباند هیگر بدون اسکلت فلزی ساخته می‌شوند؛ سطحی کاملاً بی‌صدا، یکنواخت و پایدار برای کسانی که تکیه‌گاه محکم‌تری می‌پسندند.',
+				'highlights'  => array( 'کاملاً بی‌صدا و بدون لرزش', 'شامل فوم سنگین و ریباند', 'پشتیبانی محکم و یکنواخت' ),
+				'art_label'   => 'نمای شماتیک هسته بدون فنر',
+				'finder_text' => 'بین فوم سنگین و ریباند شک دارید؟ با چند سؤال مقایسه کنید',
+				'show_finder' => true,
+			),
+			'high-density-foam' => array(
+				'theme'       => 'foam',
+				'kicker'      => 'زیرمجموعه تشک بدون فنر',
+				'title'       => 'تشک‌های',
+				'accent'      => 'فوم سنگین',
+				'title_after' => '',
+				'subtitle'    => 'هسته این تشک‌ها از فوم با تراکم بالا ساخته شده و هیچ فنری ندارد؛ سطحی ساکت، یکنواخت و محکم که بدون فرو رفتن بیش‌ازحد، بدن را در یک راستا نگه می‌دارد.',
+				'highlights'  => array( 'بدون فنر و کاملاً بی‌صدا', 'فوم پرتراکم با پشتیبانی یکنواخت', 'مناسب علاقه‌مندان سطح سفت' ),
+				'art_label'   => 'نمای شماتیک هسته فوم سنگین',
+				'finder_text' => 'مطمئن نیستید کدام مدل فوم سنگین مناسب وزن و خواب شماست؟',
+				'show_finder' => true,
+			),
+			'rebound' => array(
+				'theme'       => 'rebond',
+				'kicker'      => 'زیرمجموعه تشک بدون فنر',
+				'title'       => 'تشک‌های',
+				'accent'      => 'ریباند',
+				'title_after' => '',
+				'subtitle'    => 'هسته ریباند از قطعات فشرده‌شده فوم با چگالی بالا تشکیل می‌شود و بدون فنر است؛ گزینه‌ای بادوام و مقاوم در برابر نشست با پشتیبانی بسیار محکم و پایدار.',
+				'highlights'  => array( 'فوم فشرده با چگالی بالا', 'مقاومت عالی در برابر نشست', 'حمایت پایدار و بدون صدا' ),
+				'art_label'   => 'نمای شماتیک هسته ریباند فشرده',
+				'finder_text' => 'ببینید کدام مدل ریباند با فرم خوابیدن شما سازگارتر است',
+				'show_finder' => true,
+			),
+			'accessories' => array(
+				'theme'       => 'accessory',
+				'kicker'      => 'لوازم تکمیلی کالای خواب',
+				'title'       => 'محصولات',
+				'accent'      => 'جانبی تشک',
+				'title_after' => '',
+				'subtitle'    => 'تاپر و محافظ تشک هیگر برای محافظت از سطح تشک، تنظیم نرمی رویه و افزایش عمر مفید تشک در سایزهای استاندارد یک‌نفره تا سوپرکینگ.',
+				'highlights'  => array( 'افزایش عمر و بهداشت تشک', 'تنوع کامل سایزهای استاندارد', 'نگهداری و شست‌وشوی آسان' ),
+				'art_label'   => 'تاپر و محافظ تشک هیگر',
+				'finder_text' => '',
+				'show_finder' => false,
+			),
 		),
 
 		/* --- عناوین نمایشی مقادیر ویژگی‌ها (در صورت نیاز به نام خواناتر) --- */
@@ -533,23 +641,28 @@ if ( ! function_exists( 'higer_shop_build_categories' ) ) {
 			if ( ! is_object( $t ) || 'uncategorized' === $t->slug || false !== strpos( urldecode( $t->slug ), 'دسته-بندی-نشده' ) ) {
 				continue;
 			}
-			$cnt = 0;
+			$cnt      = 0;
+			$in_stock = 0;
 			foreach ( $products as $p ) {
 				if ( in_array( $t->slug, $p['catSlugs'], true ) ) {
 					$cnt++;
+					if ( ! empty( $p['inStock'] ) ) {
+						$in_stock++;
+					}
 				}
 			}
 			if ( $cnt < 1 ) {
 				continue;
 			}
 			$by_id[ (int) $t->term_id ] = array(
-				'id'     => (int) $t->term_id,
-				'slug'   => $t->slug,
-				'name'   => $t->name,
-				'parent' => (int) $t->parent,
-				'depth'  => 0,
-				'count'  => $cnt,
-				'url'    => higer_shop_term_url( $t, 'product_cat' ),
+				'id'           => (int) $t->term_id,
+				'slug'         => $t->slug,
+				'name'         => $t->name,
+				'parent'       => (int) $t->parent,
+				'depth'        => 0,
+				'count'        => $cnt,
+				'inStockCount' => $in_stock,
+				'url'          => higer_shop_term_url( $t, 'product_cat' ),
 			);
 		}
 		$flat = array();
@@ -575,7 +688,7 @@ if ( ! function_exists( 'higer_shop_catalog' ) ) {
 		$cached = false;
 		if ( $hours > 0 && function_exists( 'get_transient' ) ) {
 			$ver    = class_exists( 'WC_Cache_Helper' ) ? WC_Cache_Helper::get_transient_version( 'product' ) : '';
-			$ckey   = 'higer_shop_' . md5( wp_json_encode( array( 1, $ver, $cfg['attributes'], $cfg['size_labels'], $cfg['cores'], $cfg['term_titles'] ) ) );
+			$ckey   = 'higer_shop_' . md5( wp_json_encode( array( 3, $ver, $cfg['attributes'], $cfg['size_labels'], $cfg['cores'], $cfg['term_titles'] ) ) );
 			$cached = get_transient( $ckey );
 		}
 		if ( is_array( $cached ) && isset( $cached['products'] ) ) {
@@ -692,6 +805,232 @@ if ( ! function_exists( 'higer_shop_catalog' ) ) {
 			set_transient( $ckey, $out, (int) round( $hours * 3600 ) );
 		}
 		return $out;
+	}
+}
+
+if ( ! function_exists( 'higer_shop_scope_catalog' ) ) {
+	/**
+	 * استخراج محصولات، فیلترهای واقعی، بازه قیمت، آمار و زیردسته‌ها/هم‌رده‌های
+	 * مختص به یک دسته‌بندی از روی کاتالوگ کش‌شده (بدون کوئری اضافه به دیتابیس).
+	 */
+	function higer_shop_scope_catalog( $catalog, $cat_slug, $cfg ) {
+		$all_products = (array) $catalog['products'];
+		$all_cats     = (array) $catalog['categories'];
+		$hide_out     = ! empty( $cfg['hide_out_of_stock'] );
+
+		$cat_by_slug = array();
+		$cat_by_id   = array();
+		foreach ( $all_cats as $c ) {
+			$cat_by_slug[ $c['slug'] ] = $c;
+			$cat_by_id[ $c['id'] ]     = $c;
+		}
+		$current = isset( $cat_by_slug[ $cat_slug ] ) ? $cat_by_slug[ $cat_slug ] : null;
+
+		$products  = array();
+		$min_price = null;
+		$max_price = 0.0;
+		$has_sale  = false;
+		$sizes     = array();
+		$firmness  = array();
+		$layers    = array();
+		$warranty  = array();
+		$springs   = array();
+		$specials  = array();
+		$fabrics   = array();
+		$extras    = array();
+
+		$in_stock_cnt  = 0;
+		$stat_min      = null;
+		$stat_firms    = array();
+		$stat_war_min  = null;
+		$stat_war_max  = 0;
+
+		foreach ( $all_products as $p ) {
+			if ( ! in_array( $cat_slug, (array) $p['catSlugs'], true ) ) {
+				continue;
+			}
+			$products[] = $p;
+
+			if ( $p['min'] > 0 && ( null === $min_price || $p['min'] < $min_price ) ) {
+				$min_price = (float) $p['min'];
+			}
+			if ( $p['max'] > $max_price ) {
+				$max_price = (float) $p['max'];
+			}
+			if ( $p['onSale'] ) {
+				$has_sale = true;
+			}
+			if ( $p['inStock'] ) {
+				$in_stock_cnt++;
+			}
+
+			$count_for_stats = $p['inStock'] || ! $hide_out;
+			if ( $count_for_stats ) {
+				if ( $p['min'] > 0 && ( null === $stat_min || $p['min'] < $stat_min ) ) {
+					$stat_min = (float) $p['min'];
+				}
+				if ( ! empty( $p['firmness'] ) && ! empty( $p['firmness']['level'] ) ) {
+					$stat_firms[ (int) $p['firmness']['level'] ] = $p['firmness']['name'];
+				}
+				if ( ! empty( $p['warranty'] ) && ! empty( $p['warranty']['years'] ) ) {
+					$wy = (int) $p['warranty']['years'];
+					if ( null === $stat_war_min || $wy < $stat_war_min ) {
+						$stat_war_min = $wy;
+					}
+					if ( $wy > $stat_war_max ) {
+						$stat_war_max = $wy;
+					}
+				}
+			}
+
+			foreach ( (array) $p['sizes'] as $sk => $sv ) {
+				if ( ! isset( $sizes[ $sk ] ) ) {
+					$sizes[ $sk ] = array( 'slug' => $sk, 'label' => $sv['label'], 'sub' => $sv['sub'] );
+				}
+			}
+			if ( ! empty( $p['firmness'] ) ) {
+				$firmness[ $p['firmness']['slug'] ] = $p['firmness'];
+			}
+			if ( ! empty( $p['layer'] ) ) {
+				$layers[ $p['layer']['slug'] ] = $p['layer'];
+			}
+			if ( ! empty( $p['warranty'] ) ) {
+				$warranty[ $p['warranty']['slug'] ] = $p['warranty'];
+			}
+			foreach ( (array) $p['spring'] as $sp ) {
+				$springs[ $sp['slug'] ] = $sp;
+			}
+			foreach ( (array) $p['special'] as $sl ) {
+				$specials[ $sl['slug'] ] = $sl;
+			}
+			foreach ( (array) $p['fabric'] as $fb ) {
+				$fabrics[ $fb['slug'] ] = $fb;
+			}
+			foreach ( (array) $p['extra'] as $tax => $ex ) {
+				if ( ! isset( $extras[ $tax ] ) ) {
+					$extras[ $tax ] = array( 'tax' => $tax, 'label' => $ex['label'], 'terms' => array() );
+				}
+				foreach ( $ex['items'] as $ei ) {
+					$extras[ $tax ]['terms'][ $ei['slug'] ] = $ei;
+				}
+			}
+		}
+
+		uksort( $sizes, 'higer_shop_size_compare' );
+		uasort( $firmness, function ( $a, $b ) { return (int) $a['level'] - (int) $b['level']; } );
+		uksort( $warranty, 'higer_shop_num_compare' );
+		foreach ( $extras as $tax => $ex ) {
+			$extras[ $tax ]['terms'] = array_values( $ex['terms'] );
+		}
+
+		/* زیردسته‌ها (فرزندان و نوه‌ها) + هم‌رده‌ها (فرزندان همان والد) */
+		$sub_cats     = array();
+		$sibling_cats = array();
+		$parent_cat   = null;
+		if ( $current ) {
+			$cur_id    = (int) $current['id'];
+			$cur_depth = (int) $current['depth'];
+			$parent_id = (int) $current['parent'];
+			if ( $parent_id > 0 && isset( $cat_by_id[ $parent_id ] ) ) {
+				$parent_cat = $cat_by_id[ $parent_id ];
+			}
+			$desc_ids = array( $cur_id => true );
+			foreach ( $all_cats as $c ) {
+				if ( isset( $desc_ids[ (int) $c['parent'] ] ) ) {
+					$desc_ids[ (int) $c['id'] ] = true;
+					$copy                       = $c;
+					$copy['depth']              = max( 0, (int) $c['depth'] - $cur_depth - 1 );
+					$sub_cats[]                 = $copy;
+				}
+				if ( (int) $c['parent'] === $parent_id ) {
+					$sibling_cats[] = $c;
+				}
+			}
+		}
+
+		/* بازه‌های قیمت آماده متناسب با محدوده همین دسته‌بندی */
+		$eff_min = null !== $min_price ? $min_price : 0.0;
+		$presets = array();
+		if ( $max_price > $eff_min ) {
+			foreach ( (array) $cfg['price_presets'] as $pr ) {
+				$pmin = (float) $pr['min'];
+				$pmax = (float) $pr['max'];
+				$overlaps = ( $pmax <= 0 || $pmax > $eff_min ) && $pmin < $max_price;
+				$covers_all = $pmin <= $eff_min && ( $pmax <= 0 || $pmax >= $max_price );
+				if ( $overlaps && ! $covers_all ) {
+					$presets[] = $pr;
+				}
+			}
+		}
+
+		/* آمار مختصر و واقعی سربرگ دسته‌بندی */
+		$shown_total = $hide_out ? $in_stock_cnt : count( $products );
+		$stats       = array();
+		$stats[]     = array(
+			'label' => $hide_out ? 'مدل‌های موجود' : 'تعداد مدل',
+			'value' => higer_shop_fa( $shown_total ) . ' مدل',
+			'attr'  => 'data-hs-cat-stat-count',
+		);
+		if ( null !== $stat_min && $stat_min > 0 ) {
+			$stats[] = array(
+				'label' => 'شروع قیمت',
+				'value' => higer_shop_money( $stat_min ),
+				'attr'  => '',
+			);
+		}
+		if ( ! empty( $stat_firms ) ) {
+			ksort( $stat_firms );
+			$vals    = array_values( $stat_firms );
+			$f_text  = count( $vals ) > 1 ? $vals[0] . ' تا ' . $vals[ count( $vals ) - 1 ] : $vals[0];
+			$stats[] = array(
+				'label' => 'درجه سفتی',
+				'value' => $f_text,
+				'attr'  => '',
+			);
+		}
+		if ( $stat_war_max > 0 ) {
+			$w_text  = ( null !== $stat_war_min && $stat_war_min !== $stat_war_max )
+				? higer_shop_fa( $stat_war_min ) . ' تا ' . higer_shop_fa( $stat_war_max ) . ' سال'
+				: higer_shop_fa( $stat_war_max ) . ' سال';
+			$stats[] = array(
+				'label' => 'گارانتی رسمی',
+				'value' => $w_text,
+				'attr'  => '',
+			);
+		} elseif ( ! empty( $sizes ) ) {
+			$stats[] = array(
+				'label' => 'تنوع سایز',
+				'value' => higer_shop_fa( count( $sizes ) ) . ' سایز',
+				'attr'  => '',
+			);
+		}
+
+		return array(
+			'products'     => $products,
+			'inStockCount' => $in_stock_cnt,
+			'totalCount'   => count( $products ),
+			'subCats'      => $sub_cats,
+			'siblings'     => $sibling_cats,
+			'parentCat'    => $parent_cat,
+			'currentCat'   => $current,
+			'presets'      => $presets,
+			'stats'        => $stats,
+			'facets'       => array(
+				'sizes'    => array_values( $sizes ),
+				'firmness' => array_values( $firmness ),
+				'layers'   => array_values( $layers ),
+				'warranty' => array_values( $warranty ),
+				'spring'   => array_values( $springs ),
+				'special'  => array_values( $specials ),
+				'fabric'   => array_values( $fabrics ),
+				'extra'    => array_values( $extras ),
+			),
+			'minPrice'     => $eff_min,
+			'maxPrice'     => $max_price,
+			'hasSale'      => $has_sale,
+			'hasFirmness'  => ! empty( $firmness ),
+			'hasWarranty'  => ! empty( $warranty ),
+		);
 	}
 }
 
@@ -824,6 +1163,11 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
 .higer-shop .hs-crumbs li+li::before{content:"‹";color:var(--hs-gold-500);font-weight:900}
 .higer-shop .hs-crumbs a:hover{color:var(--hs-gold-300)}
 .higer-shop .hs-crumbs [aria-current]{color:var(--hs-cream);font-weight:900}
+.higer-shop .hs-crumbs-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+.higer-shop .hs-crumbs-row ol{flex:1;min-width:0}
+.higer-shop a.hs-back-shop{display:inline-flex;flex:none;align-items:center;gap:6px;padding:5px 12px;border:1px solid rgba(243,217,139,.26);border-radius:9999px;background:rgba(7,15,29,.35);color:var(--hs-gold-300);font-size:11px;font-weight:800;white-space:nowrap;transition:border-color .2s,background .2s,color .2s}
+.higer-shop a.hs-back-shop:hover{border-color:var(--hs-gold-400);background:rgba(217,161,59,.2);color:#fff}
+@media(max-width:639px){.higer-shop a.hs-back-shop{margin-bottom:10px}}
 .higer-shop .hs-notices{padding-block:16px 8px}
 .higer-shop .hs-notices :is(.woocommerce-message,.woocommerce-info,.woocommerce-error){display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin:0 0 8px;padding:14px 18px;border:1px solid var(--hs-line);border-radius:16px;background:#fff;font-size:13px;font-weight:700;box-shadow:0 10px 24px rgba(16,36,62,.06)}
 
@@ -859,6 +1203,74 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
 .higer-shop button.hs-cat-pill[aria-pressed="true"]{border-color:var(--hs-gold-500);background:linear-gradient(180deg,#ecc470 0%,#d9a13b 60%,#c8892a 100%);color:var(--hs-navy-900);box-shadow:0 8px 20px rgba(217,161,59,.32)}
 .higer-shop .hs-cat-pill span{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:9999px;background:rgba(255,255,255,.12);font-size:10px;font-weight:900}
 .higer-shop button.hs-cat-pill[aria-pressed="true"] span{background:rgba(16,36,62,.16);color:var(--hs-navy-900)}
+.higer-shop a.hs-cat-pill{display:inline-flex;flex:none;align-items:center;gap:8px;padding:8px 14px;border:1px solid rgba(243,217,139,.22);border-radius:9999px;background:rgba(7,15,29,.45);color:var(--hs-cream);font-size:12px;font-weight:800;white-space:nowrap;transition:border-color .2s,background .2s,color .2s}
+.higer-shop a.hs-cat-pill:hover{border-color:rgba(243,217,139,.65);background:rgba(24,50,80,.78);color:#fff}
+.higer-shop a.hs-cat-pill.is-active,.higer-shop a.hs-cat-pill[aria-current="page"]{border-color:var(--hs-gold-500);background:linear-gradient(180deg,#ecc470 0%,#d9a13b 60%,#c8892a 100%);color:var(--hs-navy-900);box-shadow:0 8px 20px rgba(217,161,59,.32)}
+.higer-shop a.hs-cat-pill.is-active span,.higer-shop a.hs-cat-pill[aria-current="page"] span{background:rgba(16,36,62,.16);color:var(--hs-navy-900)}
+.higer-shop a.hs-cat-pill.is-ghost{background:transparent;border-style:dashed;border-color:rgba(243,217,139,.34);color:var(--hs-gold-300)}
+.higer-shop a.hs-cat-pill.is-ghost:hover{background:rgba(217,161,59,.14);border-style:solid;border-color:var(--hs-gold-400);color:#fff}
+
+/* ---------- سربرگ اختصاصی صفحات دسته‌بندی (product_cat) ---------- */
+.higer-shop .hs-hero.is-category{padding-block:0 28px;border-bottom:2px solid rgba(217,161,59,.35)}
+@media(min-width:1024px){.higer-shop .hs-hero.is-category{padding-block:0 34px}}
+.higer-shop .hs-hero.is-category::after{content:"";position:absolute;inset-inline:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(243,217,139,.55),transparent);pointer-events:none}
+.higer-shop .hs-hero.is-category .hs-crumbs{margin-bottom:26px}
+@media(min-width:1024px){.higer-shop .hs-hero.is-category .hs-crumbs{margin-bottom:36px}}
+.higer-shop .hs-hero.is-theme-foam{background:radial-gradient(880px 440px at 14% 8%,rgba(98,146,96,.24),transparent 60%),radial-gradient(760px 380px at 88% -12%,rgba(217,161,59,.18),transparent 58%),linear-gradient(155deg,#081726 0%,#0f2737 52%,#143342 100%)}
+.higer-shop .hs-hero.is-theme-rebond{background:radial-gradient(880px 440px at 14% 12%,rgba(196,132,54,.24),transparent 58%),radial-gradient(740px 380px at 88% -10%,rgba(231,185,92,.18),transparent 56%),linear-gradient(155deg,#0c1828 0%,#18263a 52%,#223145 100%)}
+.higer-shop .hs-hero.is-theme-pocket{background:radial-gradient(860px 460px at 16% 10%,rgba(235,192,102,.24),transparent 58%),radial-gradient(780px 420px at 90% 105%,rgba(52,92,148,.34),transparent 56%),linear-gradient(155deg,#060f1f 0%,#0d203a 50%,#152d4f 100%)}
+.higer-shop .hs-hero.is-theme-bonnell{background:radial-gradient(900px 440px at 84% -10%,rgba(217,161,59,.22),transparent 58%),radial-gradient(780px 420px at 8% 100%,rgba(49,92,142,.36),transparent 58%),linear-gradient(155deg,#0a192e 0%,#112744 50%,#18365b 100%)}
+.higer-shop .hs-hero.is-theme-accessory{background:radial-gradient(820px 420px at 15% 12%,rgba(243,217,139,.18),transparent 58%),radial-gradient(720px 420px at 88% 100%,rgba(74,118,146,.28),transparent 58%),linear-gradient(155deg,#0d1f30 0%,#162f46 52%,#1e3d56 100%)}
+.higer-shop .hs-hero.is-theme-mattress{background:radial-gradient(900px 440px at 18% 0%,rgba(217,161,59,.22),transparent 58%),radial-gradient(780px 420px at 88% 105%,rgba(43,78,119,.36),transparent 58%),linear-gradient(155deg,#081526 0%,#10243e 48%,#183556 100%)}
+.higer-shop .hs-hero.is-category .hs-hero-grid{gap:24px}
+@media(min-width:1024px){.higer-shop .hs-hero.is-category .hs-hero-grid{grid-template-columns:minmax(0,1.45fr) minmax(0,360px);gap:36px}}
+.higer-shop .hs-hero.is-category .hs-hero-title{font-size:28px;line-height:1.38}
+@media(min-width:640px){.higer-shop .hs-hero.is-category .hs-hero-title{font-size:38px}}
+.higer-shop .hs-hero.is-category .hs-hero-sub{margin-top:10px;max-width:660px;font-size:13.5px;line-height:2.05;color:rgba(250,247,239,.86)}
+.higer-shop .hs-cat-traits{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.higer-shop .hs-cat-traits li{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border:1px solid rgba(243,217,139,.24);border-radius:9999px;background:rgba(7,15,29,.36);font-size:11.5px;font-weight:700;color:var(--hs-gold-200)}
+.higer-shop .hs-cat-traits li .hs-i{color:var(--hs-gold-400)}
+.higer-shop .hs-cat-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;margin-top:20px;max-width:640px;overflow:hidden;border:1px solid rgba(243,217,139,.2);border-radius:16px;background:rgba(243,217,139,.14)}
+@media(min-width:640px){.higer-shop .hs-cat-stats{grid-template-columns:repeat(auto-fit,minmax(120px,1fr))}}
+.higer-shop .hs-cat-stat{padding:11px 14px;background:rgba(7,15,29,.52);backdrop-filter:blur(6px)}
+.higer-shop .hs-cat-stat small{display:block;font-size:10px;font-weight:700;color:rgba(248,234,208,.68)}
+.higer-shop .hs-cat-stat b{display:block;margin-top:2px;font-size:13px;font-weight:900;color:#fff;line-height:1.5}
+.higer-shop .hs-hero-art.is-cat{display:none;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:12px;padding:18px;border:1px solid rgba(243,217,139,.28);border-radius:24px;background:radial-gradient(280px 180px at 50% 0%,rgba(243,217,139,.12),transparent 75%),rgba(7,15,29,.5);box-shadow:0 24px 52px rgba(4,10,20,.38);backdrop-filter:blur(10px)}
+@media(min-width:1024px){.higer-shop .hs-hero-art.is-cat{display:flex}}
+.higer-shop .hs-hero-art.is-cat .hs-cat-art-stage{display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:16/10;overflow:hidden;border-radius:16px;border:1px solid rgba(243,217,139,.14);background:rgba(7,15,29,.42);padding:12px}
+.higer-shop .hs-hero-art.is-cat .hs-cat-art-stage.has-img{padding:0}
+.higer-shop .hs-hero-art.is-cat .hs-cat-art-stage img{width:100%;height:100%;object-fit:cover}
+.higer-shop .hs-hero-art.is-cat .hs-core-svg{width:100%;max-width:290px;height:auto}
+.higer-shop .hs-cat-art-cap{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11px;font-weight:800;color:var(--hs-gold-300)}
+.higer-shop a.hs-cat-finder-mini{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;border:1px solid rgba(217,161,59,.42);border-radius:14px;background:rgba(217,161,59,.14);color:var(--hs-gold-200);font-size:11px;font-weight:800;line-height:1.6;transition:background .2s,border-color .2s,color .2s}
+.higer-shop a.hs-cat-finder-mini:hover{background:var(--hs-gold-500);border-color:var(--hs-gold-500);color:var(--hs-navy-900)}
+.higer-shop a.hs-cat-finder-mini>span{display:inline-flex;align-items:center;gap:6px;min-width:0}
+.higer-shop .hs-cat-strip-label{display:inline-flex;flex:none;align-items:center;font-size:11px;font-weight:800;color:rgba(248,234,208,.72);padding-inline-end:4px;white-space:nowrap}
+.higer-shop .hs-cat-nav-row{display:flex;align-items:center;gap:8px;padding-top:16px;margin-top:22px;border-top:1px solid rgba(243,217,139,.14);overflow-x:auto;scrollbar-width:none}
+.higer-shop .hs-cat-nav-row::-webkit-scrollbar{display:none}
+.higer-shop a.hs-cat-row{display:flex;align-items:center;gap:8px;width:100%;padding:7px 8px;border-radius:10px;font-size:12px;font-weight:700;color:var(--hs-navy-800);transition:background .15s,color .15s}
+.higer-shop a.hs-cat-row:hover{background:var(--hs-cream);color:var(--hs-navy-900)}
+.higer-shop a.hs-cat-row[aria-current="page"]{background:#fdf3d8;font-weight:900;color:var(--hs-navy-900)}
+.higer-shop a.hs-cat-row[aria-current="page"] .hs-radio{border-color:var(--hs-gold-600);background:var(--hs-gold-500);box-shadow:inset 0 0 0 3px #fff}
+.higer-shop a.hs-cat-all-link{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:10px;padding:8px 10px;border-top:1px dashed var(--hs-line);font-size:11px;font-weight:800;color:var(--hs-gold-600)}
+.higer-shop a.hs-cat-all-link:hover{color:var(--hs-navy-900)}
+.higer-shop .hs-cat-guide-sec{padding:0 0 48px;background:var(--hs-paper)}
+.higer-shop .hs-cat-guide{padding:24px;border:1px solid var(--hs-line);border-radius:24px;background:#fff;box-shadow:0 12px 30px rgba(16,36,62,.05)}
+@media(min-width:640px){.higer-shop .hs-cat-guide{padding:32px 36px}}
+.higer-shop .hs-cat-guide h2.hs-cat-guide-title{margin:10px 0 0;font-size:20px;font-weight:900;color:var(--hs-navy-900)}
+.higer-shop .hs-cat-guide-body{position:relative;margin-top:14px;font-size:14px;line-height:2.1;color:var(--hs-navy-700)}
+.higer-shop .hs-cat-guide-body :is(p,ul,ol){margin:0 0 12px}
+.higer-shop .hs-cat-guide-body ul{padding-inline-start:22px;list-style:disc}
+.higer-shop .hs-cat-guide-body ol{padding-inline-start:22px;list-style:decimal}
+.higer-shop .hs-cat-guide-body :is(h2,h3){margin:20px 0 8px;font-size:17px;font-weight:900;color:var(--hs-navy-900)}
+.higer-shop .hs-cat-guide-body a{color:var(--hs-gold-600);text-decoration:underline;text-underline-offset:3px}
+.higer-shop .hs-cat-guide-body.is-clamped{max-height:220px;overflow:hidden}
+.higer-shop .hs-cat-guide-body.is-clamped::after{content:"";position:absolute;inset-inline:0;bottom:0;height:84px;background:linear-gradient(to bottom,rgba(255,255,255,0),#fff 90%);pointer-events:none}
+.higer-shop button.hs-cat-guide-btn{display:inline-flex;align-items:center;gap:6px;margin-top:14px;padding:9px 18px;border:1.5px solid var(--hs-line);border-radius:9999px;background:var(--hs-cream);font-size:12px;font-weight:900;color:var(--hs-navy-900);transition:border-color .2s,background .2s}
+.higer-shop button.hs-cat-guide-btn:hover{border-color:var(--hs-gold-500);background:#fdf3d8}
+.higer-shop button.hs-cat-guide-btn[aria-expanded="true"] .hs-i{transform:rotate(180deg)}
+.higer-shop button.hs-cat-guide-btn .hs-i{transition:transform .2s}
+.higer-shop-archive-main{display:block;width:100%;margin:0;padding:0;overflow-x:clip}
 
 /* ---------- نوار ابزار موبایل ---------- */
 .higer-shop .hs-mobile-bar{position:sticky;top:var(--hs-sticky-top,var(--wp-admin--admin-bar--height,0px));z-index:38;border-bottom:1px solid var(--hs-line);background:rgba(250,247,239,.96);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:top .15s ease}
@@ -1232,9 +1644,14 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
 
     var products = data.products || [];
     var byId = {};
+    var cmpById = {};
+    (data.comparePool || []).forEach(function (cp) {
+      cmpById[cp.id] = cp;
+    });
     products.forEach(function (p) {
       p._normSearch = normText(p.search || (p.name + ' ' + p.short));
       byId[p.id] = p;
+      cmpById[p.id] = p;
     });
 
     var categories = data.categories || [];
@@ -1245,10 +1662,11 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
     var boundMin = Number(data.minPrice) || 0;
     var boundMax = Number(data.maxPrice) || 0;
     var init = data.initial || {};
+    var baseCat = init.baseCategory || '';
 
     var state = {
       search: init.search || '',
-      category: init.category || '',
+      category: init.category || baseCat,
       size: init.size || '',
       minPrice: boundMin,
       maxPrice: boundMax,
@@ -1269,7 +1687,7 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
     try {
       var sp = new URLSearchParams(window.location.search);
       var qCat = sp.get('cat') || sp.get('product_cat') || sp.get('filter_cat');
-      if (qCat && catBySlug[qCat]) state.category = qCat;
+      if (qCat && (catBySlug[qCat] || qCat === baseCat)) state.category = qCat;
       var qSize = sp.get('size') || sp.get('filter_size') || sp.get('attribute_pa_size');
       if (qSize) state.size = qSize;
       var qSearch = sp.get('q') || sp.get('s');
@@ -1416,6 +1834,11 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
       all('[data-hs-count="cat:"], [data-hs-cat-pill-count=""]').forEach(function (el) {
         el.textContent = toFa(baseCat.length);
       });
+      if (baseCat) {
+        all('[data-hs-count="cat:' + baseCat + '"], [data-hs-cat-pill-count="' + baseCat + '"]').forEach(function (el) {
+          el.textContent = toFa(baseCat.length);
+        });
+      }
       categories.forEach(function (cat) {
         var n = baseCat.filter(function (p) { return (p.catSlugs || []).indexOf(cat.slug) > -1; }).length;
         all('[data-hs-count="cat:' + cat.slug + '"], [data-hs-cat-pill-count="' + cat.slug + '"]').forEach(function (el) {
@@ -1493,8 +1916,8 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
       if (state.search) {
         chips.push({ type: 'search', label: 'جستجو: ' + state.search });
       }
-      if (state.category && catBySlug[state.category]) {
-        chips.push({ type: 'category', label: 'دسته: ' + catBySlug[state.category].name });
+      if (state.category && state.category !== baseCat && catBySlug[state.category]) {
+        chips.push({ type: 'category', label: (baseCat ? 'زیرمجموعه: ' : 'دسته: ') + catBySlug[state.category].name });
       }
       if (state.size) {
         chips.push({ type: 'size', label: 'سایز: ' + labelForFacet('sizes', state.size) });
@@ -1533,7 +1956,7 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
         ['cat', 'size', 'firmness', 'layer', 'warranty', 'spring', 'special', 'fabric', 'min_price', 'max_price', 'show_out_of_stock', 'on_sale', 'sort', 'q'].forEach(function (k) {
           url.searchParams.delete(k);
         });
-        if (state.category && state.category !== (init.category || '')) url.searchParams.set('cat', state.category);
+        if (state.category && state.category !== baseCat && state.category !== (init.category || '')) url.searchParams.set('cat', state.category);
         if (state.size && state.size !== (init.size || '')) url.searchParams.set('size', state.size);
         if (state.search && state.search !== (init.search || '')) url.searchParams.set('q', state.search);
         if (boundMax > 0 && state.minPrice > boundMin) url.searchParams.set('min_price', String(state.minPrice));
@@ -1593,7 +2016,7 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
       var hSub = one('[data-hs-hero-sub]');
       var hKick = one('[data-hs-hero-kicker]');
       var hArt = one('[data-hs-hero-art]');
-      if (hDef && !state.search) {
+      if (!baseCat && hDef && !state.search) {
         if (state.category && catBySlug[state.category]) {
           var cObj = catBySlug[state.category];
           var cHero = hCores[state.category] || null;
@@ -1683,6 +2106,10 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
 
       var countFa = toFa(matched.length);
       all('[data-hs-shown-count], [data-hs-result-num]').forEach(function (el) { el.textContent = countFa; });
+      if (baseCat) {
+        var heroBadge = one('[data-hs-total-badge]');
+        if (heroBadge) heroBadge.textContent = countFa + ' مدل';
+      }
       var empty = one('[data-hs-empty]');
       if (empty) empty.hidden = matched.length > 0;
       if (grid) grid.hidden = matched.length === 0;
@@ -1719,7 +2146,7 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
 
     function resetAll() {
       state.search = '';
-      state.category = '';
+      state.category = baseCat;
       state.size = '';
       state.minPrice = boundMin;
       state.maxPrice = boundMax;
@@ -1754,7 +2181,7 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
     function readBasket() {
       try {
         var raw = JSON.parse(window.localStorage.getItem(CMP_KEY) || '[]');
-        return Array.isArray(raw) ? raw.map(Number).filter(function (id) { return !!byId[id]; }) : [];
+        return Array.isArray(raw) ? raw.map(Number).filter(function (id) { return !!cmpById[id]; }) : [];
       } catch (e) { return []; }
     }
     function writeBasket(list) {
@@ -1775,7 +2202,7 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
       if (dockCnt) dockCnt.textContent = '(' + toFa(basket.length) + ')';
       if (pills) {
         pills.innerHTML = basket.map(function (id) {
-          var p = byId[id];
+          var p = cmpById[id];
           return p ? '<button type="button" class="hs-dock-pill" data-hs-cmp-rm="' + id + '" title="حذف از مقایسه">' + esc(p.name) + ' ×</button>' : '';
         }).join('');
       }
@@ -1784,7 +2211,7 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
     }
 
     function toggleCompare(id) {
-      if (!byId[id]) return;
+      if (!cmpById[id]) return;
       var at = basket.indexOf(id);
       if (at > -1) basket.splice(at, 1);
       else basket.push(id);
@@ -1795,7 +2222,7 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
     function renderCompareTable() {
       var wrap = one('[data-hs-cmp-table-wrap]');
       if (!wrap) return;
-      var items = basket.map(function (id) { return byId[id]; }).filter(Boolean);
+      var items = basket.map(function (id) { return cmpById[id]; }).filter(Boolean);
       if (!items.length) {
         wrap.innerHTML = '<p style="padding:28px;text-align:center;font-weight:700">هیچ مدلی در فهرست مقایسه نیست.</p>';
         return;
@@ -1925,7 +2352,11 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
 
       if (target.hasAttribute('data-hs-cat')) {
         var nextCat = target.getAttribute('data-hs-cat') || '';
-        state.category = (state.category === nextCat && nextCat !== '') ? '' : nextCat;
+        if (baseCat) {
+          state.category = (nextCat === '' || state.category === nextCat) ? baseCat : nextCat;
+        } else {
+          state.category = (state.category === nextCat && nextCat !== '') ? '' : nextCat;
+        }
         render();
         return;
       }
@@ -1984,7 +2415,7 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
         var chip = cList[Number(target.getAttribute('data-hs-rm-chip'))];
         if (chip) {
           if (chip.type === 'search') state.search = '';
-          else if (chip.type === 'category') state.category = '';
+          else if (chip.type === 'category') state.category = baseCat;
           else if (chip.type === 'size') state.size = '';
           else if (chip.type === 'price') { state.minPrice = boundMin; state.maxPrice = boundMax; }
           else if (chip.type === 'stock') state.hideOut = !!init.hideOut;
@@ -1992,6 +2423,17 @@ if ( ! function_exists( 'higer_shop_assets' ) ) {
           else if (chip.type === 'facet') toggleInArray(state[chip.key], chip.value);
           else if (chip.type === 'extra' && state.extra[chip.key]) toggleInArray(state.extra[chip.key], chip.value);
           render();
+        }
+        return;
+      }
+      if (target.hasAttribute('data-hs-guide-toggle')) {
+        var gBody = one('[data-hs-guide-body]');
+        if (gBody) {
+          var willOpen = gBody.classList.contains('is-clamped');
+          gBody.classList.toggle('is-clamped', !willOpen);
+          target.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+          var gl = target.querySelector('span');
+          if (gl) gl.textContent = willOpen ? 'بستن توضیحات' : 'مطالعه کامل راهنمای دسته';
         }
         return;
       }
@@ -2193,24 +2635,38 @@ if ( ! function_exists( 'higer_shop_context' ) ) {
 	/** زمینه فعلی صفحه (فروشگاه کل، آرشیو دسته‌بندی، آرشیو ویژگی یا جستجو) را تشخیص می‌دهد. */
 	function higer_shop_context( $atts, $cfg ) {
 		$ctx = array(
-			'title'       => $cfg['hero']['title'],
-			'subtitle'    => $cfg['hero']['subtitle'],
-			'kicker'      => $cfg['hero']['kicker'],
-			'core_key'    => 'bonnell',
-			'crumbs'      => array(),
-			'category'    => '',
-			'size'        => '',
-			'firmness'    => array(),
-			'layer'       => array(),
-			'warranty'    => array(),
-			'spring'      => array(),
-			'special'     => array(),
-			'fabric'      => array(),
-			'search'      => '',
+			'is_category'  => false,
+			'term_id'      => 0,
+			'cat_name'     => '',
+			'shop_url'     => '',
+			'theme'        => 'default',
+			'title'        => $cfg['hero']['title'],
+			'title_accent' => '',
+			'title_after'  => '',
+			'subtitle'     => $cfg['hero']['subtitle'],
+			'kicker'       => $cfg['hero']['kicker'],
+			'core_key'     => 'bonnell',
+			'highlights'   => array(),
+			'art_label'    => '',
+			'thumb_url'    => '',
+			'show_finder'  => true,
+			'finder_text'  => '',
+			'long_desc'    => '',
+			'crumbs'       => array(),
+			'category'     => '',
+			'size'         => '',
+			'firmness'     => array(),
+			'layer'        => array(),
+			'warranty'     => array(),
+			'spring'       => array(),
+			'special'      => array(),
+			'fabric'       => array(),
+			'search'       => '',
 		);
 
-		$shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' );
-		$qobj     = function_exists( 'get_queried_object' ) ? get_queried_object() : null;
+		$shop_url        = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' );
+		$ctx['shop_url'] = $shop_url;
+		$qobj            = function_exists( 'get_queried_object' ) ? get_queried_object() : null;
 
 		if ( ! empty( $atts['category'] ) ) {
 			$ctx['category'] = sanitize_title( (string) $atts['category'] );
@@ -2222,29 +2678,103 @@ if ( ! function_exists( 'higer_shop_context' ) ) {
 
 		if ( is_object( $qobj ) && ! empty( $qobj->taxonomy ) ) {
 			if ( 'product_cat' === $qobj->taxonomy ) {
-				$ctx['category'] = (string) $qobj->slug;
-				$ctx['title']    = (string) $qobj->name;
-				$ctx['kicker']   = 'دسته‌بندی محصولات';
-				$desc            = trim( wp_strip_all_tags( (string) $qobj->description ) );
-				if ( '' !== $desc ) {
-					$ctx['subtitle'] = $desc;
-				} elseif ( isset( $cfg['cores'][ $qobj->slug ]['text'] ) ) {
-					$ctx['subtitle'] = $cfg['cores'][ $qobj->slug ]['text'];
+				$slug               = (string) $qobj->slug;
+				$heroes             = isset( $cfg['category_heroes'] ) && is_array( $cfg['category_heroes'] ) ? $cfg['category_heroes'] : array();
+				$ch                 = isset( $heroes[ $slug ] ) && is_array( $heroes[ $slug ] ) ? $heroes[ $slug ] : null;
+				$ctx['is_category'] = true;
+				$ctx['term_id']     = (int) $qobj->term_id;
+				$ctx['category']    = $slug;
+				$ctx['cat_name']    = (string) $qobj->name;
+				$ctx['title']       = (string) $qobj->name;
+				$ctx['kicker']      = 'دسته‌بندی محصولات';
+
+				/* تصویر شاخص دسته‌بندی (در صورت ثبت در ووکامرس) */
+				if ( function_exists( 'get_term_meta' ) && function_exists( 'wp_get_attachment_image_url' ) ) {
+					$thumb_id = (int) get_term_meta( (int) $qobj->term_id, 'thumbnail_id', true );
+					if ( $thumb_id > 0 ) {
+						$turl = wp_get_attachment_image_url( $thumb_id, 'large' );
+						if ( $turl ) {
+							$ctx['thumb_url'] = (string) $turl;
+						}
+					}
 				}
-				if ( isset( $cfg['cores'][ $qobj->slug ]['key'] ) ) {
-					$ctx['core_key'] = $cfg['cores'][ $qobj->slug ]['key'];
-				}
+
+				/* سلسله‌مراتب والدها + ارث‌بری طرح و تم برای دسته‌های جدید آینده */
 				$ctx['crumbs'][] = array( 'name' => 'فروشگاه', 'url' => $shop_url );
+				$parent_name     = '';
+				$anc_theme       = '';
+				$anc_core        = '';
 				foreach ( array_reverse( (array) get_ancestors( $qobj->term_id, 'product_cat', 'taxonomy' ) ) as $aid ) {
 					$anc = get_term( $aid, 'product_cat' );
 					if ( $anc && ! is_wp_error( $anc ) ) {
 						$ctx['crumbs'][] = array( 'name' => $anc->name, 'url' => higer_shop_term_url( $anc, 'product_cat' ) );
-						if ( isset( $cfg['cores'][ $anc->slug ]['key'] ) && 'bonnell' === $ctx['core_key'] && ! isset( $cfg['cores'][ $qobj->slug ] ) ) {
-							$ctx['core_key'] = $cfg['cores'][ $anc->slug ]['key'];
+						$parent_name     = (string) $anc->name;
+						if ( isset( $cfg['cores'][ $anc->slug ]['key'] ) ) {
+							$anc_core = $cfg['cores'][ $anc->slug ]['key'];
+						}
+						if ( isset( $heroes[ $anc->slug ]['theme'] ) ) {
+							$anc_theme = $heroes[ $anc->slug ]['theme'];
 						}
 					}
 				}
 				$ctx['crumbs'][] = array( 'name' => $qobj->name, 'url' => '' );
+
+				if ( isset( $cfg['cores'][ $slug ]['key'] ) ) {
+					$ctx['core_key'] = $cfg['cores'][ $slug ]['key'];
+				} elseif ( '' !== $anc_core ) {
+					$ctx['core_key'] = $anc_core;
+				}
+				$ctx['theme'] = $ch && ! empty( $ch['theme'] ) ? (string) $ch['theme'] : ( '' !== $anc_theme ? $anc_theme : $ctx['core_key'] );
+
+				if ( $ch ) {
+					if ( ! empty( $ch['kicker'] ) ) {
+						$ctx['kicker'] = (string) $ch['kicker'];
+					}
+					if ( isset( $ch['title'] ) && '' !== $ch['title'] ) {
+						$ctx['title']        = (string) $ch['title'];
+						$ctx['title_accent'] = isset( $ch['accent'] ) ? (string) $ch['accent'] : '';
+						$ctx['title_after']  = isset( $ch['title_after'] ) ? (string) $ch['title_after'] : '';
+					}
+					if ( ! empty( $ch['subtitle'] ) ) {
+						$ctx['subtitle'] = (string) $ch['subtitle'];
+					}
+					if ( ! empty( $ch['highlights'] ) && is_array( $ch['highlights'] ) ) {
+						$ctx['highlights'] = array_values( array_filter( $ch['highlights'] ) );
+					}
+					if ( ! empty( $ch['art_label'] ) ) {
+						$ctx['art_label'] = (string) $ch['art_label'];
+					}
+					if ( isset( $ch['show_finder'] ) ) {
+						$ctx['show_finder'] = (bool) $ch['show_finder'];
+					}
+					if ( ! empty( $ch['finder_text'] ) ) {
+						$ctx['finder_text'] = (string) $ch['finder_text'];
+					}
+				} else {
+					if ( '' !== $parent_name ) {
+						$ctx['kicker'] = 'زیرمجموعه ' . $parent_name;
+					}
+					$ctx['art_label'] = 'دسته‌بندی ' . $qobj->name;
+					if ( isset( $cfg['cores'][ $slug ]['text'] ) ) {
+						$ctx['subtitle'] = $cfg['cores'][ $slug ]['text'];
+					} else {
+						$ctx['subtitle'] = 'مشاهده و مقایسه مدل‌های دسته‌بندی ' . $qobj->name . ' هیگر همراه با قیمت به‌روز هر سایز.';
+					}
+				}
+
+				/* توضیحات ثبت‌شده در ووکامرس: کوتاه = داخل هیرو، بلند/سئو = بخش بازشوی پایین صفحه */
+				$raw_desc   = trim( (string) $qobj->description );
+				$plain_desc = trim( preg_replace( '/s+/u', ' ', wp_strip_all_tags( $raw_desc ) ) );
+				if ( '' !== $plain_desc ) {
+					$plain_len = function_exists( 'mb_strlen' ) ? mb_strlen( $plain_desc, 'UTF-8' ) : strlen( $plain_desc );
+					$has_rich  = (bool) preg_match( '/<(h[1-6]|ul|ol|table|blockquote)/i', $raw_desc );
+					if ( $plain_len > 260 || $has_rich ) {
+						$formatted        = function_exists( 'wpautop' ) ? wpautop( $raw_desc ) : $raw_desc;
+						$ctx['long_desc'] = function_exists( 'wp_kses_post' ) ? wp_kses_post( $formatted ) : $formatted;
+					} else {
+						$ctx['subtitle'] = $plain_desc;
+					}
+				}
 			} else {
 				$keys = $cfg['attributes'];
 				$ctx['title']  = (string) $qobj->name;
@@ -2305,11 +2835,39 @@ if ( ! function_exists( 'higer_shop_render' ) ) {
 		$fa      = 'higer_shop_fa';
 		$uid     = 'hs-' . $instance;
 
-		$products   = $catalog['products'];
-		$categories = $catalog['categories'];
-		$facets     = $catalog['facets'];
-		$total_fa   = $fa( count( $products ) );
-		$scale_max  = higer_shop_firmness_max( $cfg['attributes']['firmness'] );
+		$is_cat_page  = ! empty( $ctx['is_category'] ) && '' !== $ctx['category'];
+		$scoped       = $is_cat_page ? higer_shop_scope_catalog( $catalog, $ctx['category'], $cfg ) : null;
+		$products     = $is_cat_page ? $scoped['products'] : $catalog['products'];
+		$categories   = $is_cat_page ? $scoped['subCats'] : $catalog['categories'];
+		$siblings     = $is_cat_page ? $scoped['siblings'] : array();
+		$parent_cat   = $is_cat_page ? $scoped['parentCat'] : null;
+		$cat_stats    = $is_cat_page ? $scoped['stats'] : array();
+		$facets       = $is_cat_page ? $scoped['facets'] : $catalog['facets'];
+		$min_price    = $is_cat_page ? $scoped['minPrice'] : $catalog['minPrice'];
+		$max_price    = $is_cat_page ? $scoped['maxPrice'] : $catalog['maxPrice'];
+		$has_sale     = $is_cat_page ? $scoped['hasSale'] : $catalog['hasSale'];
+		$presets      = $is_cat_page ? $scoped['presets'] : (array) $cfg['price_presets'];
+		$has_firmness = $is_cat_page ? $scoped['hasFirmness'] : ! empty( $facets['firmness'] );
+		$has_warranty = $is_cat_page ? $scoped['hasWarranty'] : ! empty( $facets['warranty'] );
+		$show_finder  = ! empty( $cfg['finder_path'] ) && ( ! $is_cat_page || ! empty( $ctx['show_finder'] ) );
+		$hide_out     = ! empty( $cfg['hide_out_of_stock'] );
+		$initial_vis  = $is_cat_page ? ( $hide_out ? (int) $scoped['inStockCount'] : (int) $scoped['totalCount'] ) : count( $products );
+		$total_fa     = $fa( count( $products ) );
+		$vis_fa       = $fa( $initial_vis );
+		$cat_cnt = function ( $cat_arr ) use ( $hide_out ) {
+			return ( $hide_out && isset( $cat_arr['inStockCount'] ) ) ? (int) $cat_arr['inStockCount'] : (int) $cat_arr['count'];
+		};
+		$all_shop_num = count( $catalog['products'] );
+		if ( $hide_out ) {
+			$all_shop_num = 0;
+			foreach ( $catalog['products'] as $cp ) {
+				if ( ! empty( $cp['inStock'] ) ) {
+					$all_shop_num++;
+				}
+			}
+		}
+		$all_shop_fa  = $fa( $all_shop_num );
+		$scale_max    = higer_shop_firmness_max( $cfg['attributes']['firmness'] );
 
 		/* پیام‌های سبد خرید ووکامرس */
 		$wc      = function_exists( 'WC' ) ? WC() : null;
@@ -2333,14 +2891,16 @@ if ( ! function_exists( 'higer_shop_render' ) ) {
 				'svg'      => higer_shop_core_svg( 'bonnell' ),
 			),
 			'heroCores'    => $hero_cores,
-			'minPrice'     => $catalog['minPrice'],
-			'maxPrice'     => $catalog['maxPrice'],
-			'hasSale'      => $catalog['hasSale'],
-			'presets'      => $cfg['price_presets'],
+			'minPrice'     => $min_price,
+			'maxPrice'     => $max_price,
+			'hasSale'      => $has_sale,
+			'presets'      => $presets,
 			'categories'   => $categories,
 			'facets'       => $facets,
+			'comparePool'  => $is_cat_page ? $catalog['products'] : array(),
 			'initial'      => array(
-				'category' => $ctx['category'],
+				'baseCategory' => $is_cat_page ? $ctx['category'] : '',
+				'category'     => $ctx['category'],
 				'size'     => $ctx['size'],
 				'firmness' => $ctx['firmness'],
 				'layer'    => $ctx['layer'],
@@ -2361,23 +2921,131 @@ if ( ! function_exists( 'higer_shop_render' ) ) {
 	<script type="application/json" data-hs-data><?php echo wp_json_encode( $payload, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT ); ?></script>
 	<?php if ( '' !== trim( $notices ) ) : ?><div class="hs-wrap hs-notices"><?php echo $notices; // phpcs:ignore ?></div><?php endif; ?>
 
-	<!-- ===== سربرگ فروشگاه (مسیر صفحه روی همان پس‌زمینه) و نوار دسته‌بندی سریع ===== -->
-	<header class="hs-hero">
+	<!-- ===== سربرگ صفحه (اختصاصی دسته‌بندی یا اصلی فروشگاه) ===== -->
+	<?php
+	$hero_cls = 'hs-hero';
+	if ( $is_cat_page ) {
+		$hero_cls .= ' is-category is-theme-' . sanitize_html_class( $ctx['theme'] );
+	}
+	?>
+	<header class="<?php echo esc_attr( $hero_cls ); ?>"<?php echo $is_cat_page ? ' data-hs-cat-hero="' . esc_attr( $ctx['category'] ) . '"' : ''; ?>>
 		<nav class="hs-crumbs" aria-label="مسیر صفحه">
-			<ol class="hs-wrap">
-				<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>">خانه</a></li>
-				<?php foreach ( $ctx['crumbs'] as $crumb ) : ?>
-				<li<?php echo '' === $crumb['url'] ? ' aria-current="page"' : ''; ?>><?php if ( '' !== $crumb['url'] ) : ?><a href="<?php echo esc_url( $crumb['url'] ); ?>"><?php echo esc_html( $crumb['name'] ); ?></a><?php else : echo esc_html( $crumb['name'] ); endif; ?></li>
-				<?php endforeach; ?>
-			</ol>
+			<div class="hs-wrap hs-crumbs-row">
+				<ol>
+					<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>">خانه</a></li>
+					<?php foreach ( $ctx['crumbs'] as $crumb ) : ?>
+					<li<?php echo '' === $crumb['url'] ? ' aria-current="page"' : ''; ?>><?php if ( '' !== $crumb['url'] ) : ?><a href="<?php echo esc_url( $crumb['url'] ); ?>"><?php echo esc_html( $crumb['name'] ); ?></a><?php else : echo esc_html( $crumb['name'] ); endif; ?></li>
+					<?php endforeach; ?>
+				</ol>
+				<?php if ( $is_cat_page && '' !== $ctx['shop_url'] ) : ?>
+				<a class="hs-back-shop" href="<?php echo esc_url( $ctx['shop_url'] ); ?>">همه محصولات فروشگاه <?php echo higer_shop_icon( 'chevron-left', 13 ); // phpcs:ignore ?></a>
+				<?php endif; ?>
+			</div>
 		</nav>
 
+		<?php if ( $is_cat_page ) : ?>
+		<div class="hs-wrap hs-hero-grid">
+			<div class="hs-hero-copy">
+				<span class="hs-kicker is-dark"><?php echo higer_shop_icon( 'layers', 13 ); // phpcs:ignore ?> <span data-hs-hero-kicker><?php echo esc_html( $ctx['kicker'] ); ?></span> • <b data-hs-total-badge><?php echo esc_html( $vis_fa ); ?> مدل</b></span>
+				<h1 class="hs-hero-title" data-hs-hero-title><?php
+					echo esc_html( $ctx['title'] );
+					if ( '' !== $ctx['title_accent'] ) {
+						echo ' <span class="hs-gold-text">' . esc_html( $ctx['title_accent'] ) . '</span>';
+					}
+					if ( '' !== $ctx['title_after'] ) {
+						echo ' ' . esc_html( $ctx['title_after'] );
+					}
+				?></h1>
+				<p class="hs-hero-sub" data-hs-hero-sub><?php echo esc_html( $ctx['subtitle'] ); ?></p>
+
+				<?php if ( ! empty( $ctx['highlights'] ) ) : ?>
+				<ul class="hs-cat-traits" aria-label="ویژگی‌های این دسته‌بندی">
+					<?php foreach ( $ctx['highlights'] as $hl ) : ?>
+					<li><?php echo higer_shop_icon( 'check', 12 ); // phpcs:ignore ?> <span><?php echo esc_html( $hl ); ?></span></li>
+					<?php endforeach; ?>
+				</ul>
+				<?php endif; ?>
+
+				<?php if ( ! empty( $cat_stats ) ) : ?>
+				<div class="hs-cat-stats" aria-label="خلاصه این دسته‌بندی">
+					<?php foreach ( $cat_stats as $st ) : ?>
+					<div class="hs-cat-stat">
+						<small><?php echo esc_html( $st['label'] ); ?></small>
+						<b<?php echo '' !== $st['attr'] ? ' ' . $st['attr'] : ''; // phpcs:ignore ?>><?php echo esc_html( $st['value'] ); ?></b>
+					</div>
+					<?php endforeach; ?>
+				</div>
+				<?php endif; ?>
+			</div>
+
+			<div class="hs-hero-art is-cat" data-hs-hero-art>
+				<div class="hs-cat-art-stage<?php echo '' !== $ctx['thumb_url'] ? ' has-img' : ''; ?>">
+					<?php if ( '' !== $ctx['thumb_url'] ) : ?>
+					<img src="<?php echo esc_url( $ctx['thumb_url'] ); ?>" alt="<?php echo esc_attr( $ctx['cat_name'] ); ?>" decoding="async">
+					<?php else : ?>
+					<?php echo higer_shop_core_svg( $ctx['core_key'] ); // phpcs:ignore ?>
+					<?php endif; ?>
+				</div>
+				<?php if ( '' !== $ctx['art_label'] ) : ?>
+				<div class="hs-cat-art-cap">
+					<span><?php echo esc_html( $ctx['art_label'] ); ?></span>
+					<?php echo higer_shop_icon( 'bed', 15 ); // phpcs:ignore ?>
+				</div>
+				<?php endif; ?>
+				<?php if ( $show_finder ) : ?>
+				<a class="hs-cat-finder-mini" href="<?php echo esc_url( home_url( $cfg['finder_path'] ) ); ?>">
+					<span><?php echo higer_shop_icon( 'sparkles', 14 ); // phpcs:ignore ?> تشک‌سنج هوشمند هیگر</span>
+					<?php echo higer_shop_icon( 'chevron-left', 14 ); // phpcs:ignore ?>
+				</a>
+				<?php endif; ?>
+			</div>
+		</div>
+
+		<?php if ( ! empty( $categories ) ) : ?>
+		<div class="hs-wrap">
+			<div class="hs-cat-nav-row" role="tablist" aria-label="زیرمجموعه‌های <?php echo esc_attr( $ctx['cat_name'] ); ?>">
+				<span class="hs-cat-strip-label">زیرمجموعه‌ها:</span>
+				<button type="button" class="hs-cat-pill" data-hs-cat="<?php echo esc_attr( $ctx['category'] ); ?>" aria-pressed="true">
+					<b>همه <?php echo esc_html( $ctx['cat_name'] ); ?></b>
+					<span data-hs-cat-pill-count="<?php echo esc_attr( $ctx['category'] ); ?>"><?php echo esc_html( $vis_fa ); ?></span>
+				</button>
+				<?php foreach ( $categories as $sub ) : ?>
+				<button type="button" class="hs-cat-pill<?php echo $sub['depth'] > 0 ? ' is-sub' : ''; ?>" data-hs-cat="<?php echo esc_attr( $sub['slug'] ); ?>" aria-pressed="false">
+					<b><?php echo esc_html( $sub['name'] ); ?></b>
+					<span data-hs-cat-pill-count="<?php echo esc_attr( $sub['slug'] ); ?>"><?php echo esc_html( $fa( $sub['count'] ) ); ?></span>
+				</button>
+				<?php endforeach; ?>
+			</div>
+		</div>
+		<?php elseif ( count( $siblings ) > 1 || $parent_cat ) : ?>
+		<nav class="hs-wrap" aria-label="سایر دسته‌بندی‌های مرتبط">
+			<div class="hs-cat-nav-row">
+				<span class="hs-cat-strip-label"><?php echo $parent_cat ? esc_html( 'دسته‌های ' . $parent_cat['name'] . ':' ) : 'سایر دسته‌ها:'; ?></span>
+				<?php if ( $parent_cat && '' !== $parent_cat['url'] ) : ?>
+				<a class="hs-cat-pill is-ghost" href="<?php echo esc_url( $parent_cat['url'] ); ?>"><b>همه <?php echo esc_html( $parent_cat['name'] ); ?></b><span><?php echo esc_html( $fa( $cat_cnt( $parent_cat ) ) ); ?></span></a>
+				<?php endif; ?>
+				<?php foreach ( $siblings as $sib ) :
+					$is_cur = $sib['slug'] === $ctx['category'];
+					?>
+				<a class="hs-cat-pill<?php echo $is_cur ? ' is-active' : ''; ?>" href="<?php echo esc_url( $sib['url'] ); ?>"<?php echo $is_cur ? ' aria-current="page"' : ''; ?>>
+					<b><?php echo esc_html( $sib['name'] ); ?></b>
+					<span><?php echo esc_html( $is_cur ? $vis_fa : $fa( $cat_cnt( $sib ) ) ); ?></span>
+				</a>
+				<?php endforeach; ?>
+				<?php if ( '' !== $ctx['shop_url'] ) : ?>
+				<a class="hs-cat-pill is-ghost" href="<?php echo esc_url( $ctx['shop_url'] ); ?>"><b>کل فروشگاه</b><span><?php echo esc_html( $all_shop_fa ); ?></span></a>
+				<?php endif; ?>
+			</div>
+		</nav>
+		<?php endif; ?>
+
+		<?php else : ?>
 		<div class="hs-wrap hs-hero-grid">
 			<div class="hs-hero-copy">
 				<span class="hs-kicker is-dark"><?php echo higer_shop_icon( 'layers', 13 ); // phpcs:ignore ?> <span data-hs-hero-kicker><?php echo esc_html( $ctx['kicker'] ); ?></span> • <b data-hs-total-badge><?php echo esc_html( $total_fa ); ?> محصول</b></span>
 				<h1 class="hs-hero-title" data-hs-hero-title><?php echo esc_html( $ctx['title'] ); ?></h1>
 				<p class="hs-hero-sub" data-hs-hero-sub><?php echo esc_html( $ctx['subtitle'] ); ?></p>
-			<?php if ( ! empty( $cfg['finder_path'] ) ) : ?>
+			<?php if ( $show_finder ) : ?>
 			<a class="hs-hero-finder" href="<?php echo esc_url( home_url( $cfg['finder_path'] ) ); ?>">
 				<span class="hs-finder-ico" aria-hidden="true"><?php echo higer_shop_icon( 'sparkles', 20 ); // phpcs:ignore ?></span>
 				<span class="hs-finder-copy">
@@ -2408,6 +3076,7 @@ if ( ! function_exists( 'higer_shop_render' ) ) {
 			</div>
 		</div>
 		<?php endif; ?>
+		<?php endif; ?>
 	</header>
 
 	<!-- ===== نوار ابزار چسبنده موبایل ===== -->
@@ -2424,9 +3093,11 @@ if ( ! function_exists( 'higer_shop_render' ) ) {
 					<option value="default">مرتب‌سازی: پیش‌فرض</option>
 					<option value="price-asc">ارزان‌ترین</option>
 					<option value="price-desc">گران‌ترین</option>
-					<option value="warranty-desc">بیشترین گارانتی</option>
+					<?php if ( $has_warranty ) : ?><option value="warranty-desc">بیشترین گارانتی</option><?php endif; ?>
+					<?php if ( $has_firmness ) : ?>
 					<option value="firm-asc">نرم‌ترین به سفت‌ترین</option>
 					<option value="firm-desc">سفت‌ترین به نرم‌ترین</option>
+					<?php endif; ?>
 					<option value="name-asc">حروف الفبا</option>
 				</select>
 			</label>
@@ -2469,7 +3140,7 @@ if ( ! function_exists( 'higer_shop_render' ) ) {
 								<span>نمایش کالاهای ناموجود</span>
 							</label>
 							<?php endif; ?>
-							<?php if ( $catalog['hasSale'] ) : ?>
+							<?php if ( $has_sale ) : ?>
 							<label class="hs-switch">
 								<input type="checkbox" data-hs-onsale>
 								<span class="hs-switch-ui" aria-hidden="true"></span>
@@ -2498,23 +3169,23 @@ if ( ! function_exists( 'higer_shop_render' ) ) {
 					<?php endif; ?>
 
 					<!-- ۳. محدوده قیمت -->
-					<?php if ( $catalog['maxPrice'] > 0 ) : ?>
+					<?php if ( $max_price > 0 && $max_price > $min_price ) : ?>
 					<details class="hs-fgroup" open>
 						<summary><span>محدوده قیمت (تومان)</span><?php echo higer_shop_icon( 'chevron-down', 15 ); // phpcs:ignore ?></summary>
 						<div class="hs-fbody">
 							<div class="hs-price-readout">
-								<span>از <b data-hs-price-min-out><?php echo esc_html( higer_shop_number( $catalog['minPrice'] ) ); ?></b></span>
-								<span>تا <b data-hs-price-max-out><?php echo esc_html( higer_shop_number( $catalog['maxPrice'] ) ); ?></b></span>
+								<span>از <b data-hs-price-min-out><?php echo esc_html( higer_shop_number( $min_price ) ); ?></b></span>
+								<span>تا <b data-hs-price-max-out><?php echo esc_html( higer_shop_number( $max_price ) ); ?></b></span>
 							</div>
 							<div class="hs-range-dual" data-hs-range-wrap>
 								<div class="hs-range-track"><span data-hs-range-fill></span></div>
-								<input type="range" min="<?php echo esc_attr( (string) (int) $catalog['minPrice'] ); ?>" max="<?php echo esc_attr( (string) (int) $catalog['maxPrice'] ); ?>" step="500000" value="<?php echo esc_attr( (string) (int) $catalog['minPrice'] ); ?>" aria-label="حداقل قیمت" data-hs-price-min>
-								<input type="range" min="<?php echo esc_attr( (string) (int) $catalog['minPrice'] ); ?>" max="<?php echo esc_attr( (string) (int) $catalog['maxPrice'] ); ?>" step="500000" value="<?php echo esc_attr( (string) (int) $catalog['maxPrice'] ); ?>" aria-label="حداکثر قیمت" data-hs-price-max>
+								<input type="range" min="<?php echo esc_attr( (string) (int) $min_price ); ?>" max="<?php echo esc_attr( (string) (int) $max_price ); ?>" step="500000" value="<?php echo esc_attr( (string) (int) $min_price ); ?>" aria-label="حداقل قیمت" data-hs-price-min>
+								<input type="range" min="<?php echo esc_attr( (string) (int) $min_price ); ?>" max="<?php echo esc_attr( (string) (int) $max_price ); ?>" step="500000" value="<?php echo esc_attr( (string) (int) $max_price ); ?>" aria-label="حداکثر قیمت" data-hs-price-max>
 							</div>
 							<button type="button" class="hs-price-reset" data-hs-price-reset hidden><?php echo higer_shop_icon( 'reset', 12 ); // phpcs:ignore ?> بازنشانی محدوده قیمت</button>
-							<?php if ( ! empty( $cfg['price_presets'] ) ) : ?>
+							<?php if ( ! empty( $presets ) ) : ?>
 							<div class="hs-presets">
-								<?php foreach ( $cfg['price_presets'] as $pr ) : ?>
+								<?php foreach ( $presets as $pr ) : ?>
 								<button type="button" class="hs-preset" data-hs-preset-min="<?php echo (int) $pr['min']; ?>" data-hs-preset-max="<?php echo (int) $pr['max']; ?>"><?php echo esc_html( $pr['label'] ); ?></button>
 								<?php endforeach; ?>
 							</div>
@@ -2524,7 +3195,65 @@ if ( ! function_exists( 'higer_shop_render' ) ) {
 					<?php endif; ?>
 
 					<!-- ۴. دسته‌بندی و نوع هسته -->
-					<?php if ( $categories ) : ?>
+					<?php if ( $is_cat_page ) : ?>
+						<?php if ( ! empty( $categories ) ) : ?>
+						<details class="hs-fgroup" open>
+							<summary><span><?php echo higer_shop_icon( 'bed', 15 ); // phpcs:ignore ?> زیرمجموعه‌های <?php echo esc_html( $ctx['cat_name'] ); ?></span><?php echo higer_shop_icon( 'chevron-down', 15 ); // phpcs:ignore ?></summary>
+							<div class="hs-fbody">
+								<ul class="hs-cat-tree">
+									<li>
+										<button type="button" class="hs-cat-row" data-hs-cat="<?php echo esc_attr( $ctx['category'] ); ?>" aria-pressed="true">
+											<span class="hs-radio" aria-hidden="true"></span>
+											<span class="hs-cat-name">همه <?php echo esc_html( $ctx['cat_name'] ); ?></span>
+											<em class="hs-fcount" data-hs-count="cat:<?php echo esc_attr( $ctx['category'] ); ?>"><?php echo esc_html( $vis_fa ); ?></em>
+										</button>
+									</li>
+									<?php foreach ( $categories as $cat ) : ?>
+									<li style="--depth:<?php echo (int) $cat['depth']; ?>">
+										<button type="button" class="hs-cat-row" data-hs-cat="<?php echo esc_attr( $cat['slug'] ); ?>" aria-pressed="false">
+											<span class="hs-radio" aria-hidden="true"></span>
+											<span class="hs-cat-name"><?php echo esc_html( $cat['name'] ); ?></span>
+											<em class="hs-fcount" data-hs-count="cat:<?php echo esc_attr( $cat['slug'] ); ?>"><?php echo esc_html( $fa( $cat['count'] ) ); ?></em>
+										</button>
+									</li>
+									<?php endforeach; ?>
+								</ul>
+								<?php if ( '' !== $ctx['shop_url'] ) : ?>
+								<a class="hs-cat-all-link" href="<?php echo esc_url( $ctx['shop_url'] ); ?>"><span>مشاهده همه محصولات فروشگاه</span><?php echo higer_shop_icon( 'chevron-left', 13 ); // phpcs:ignore ?></a>
+								<?php endif; ?>
+							</div>
+						</details>
+						<?php elseif ( count( $siblings ) > 1 || $parent_cat ) : ?>
+						<details class="hs-fgroup">
+							<summary><span><?php echo higer_shop_icon( 'bed', 15 ); // phpcs:ignore ?> دسته‌های مرتبط</span><?php echo higer_shop_icon( 'chevron-down', 15 ); // phpcs:ignore ?></summary>
+							<div class="hs-fbody">
+								<ul class="hs-cat-tree">
+									<?php if ( $parent_cat && '' !== $parent_cat['url'] ) : ?>
+									<li>
+										<a class="hs-cat-row" href="<?php echo esc_url( $parent_cat['url'] ); ?>">
+											<span class="hs-radio" aria-hidden="true"></span>
+											<span class="hs-cat-name">همه <?php echo esc_html( $parent_cat['name'] ); ?></span>
+											<em class="hs-fcount"><?php echo esc_html( $fa( $cat_cnt( $parent_cat ) ) ); ?></em>
+										</a>
+									</li>
+									<?php endif; ?>
+									<?php foreach ( $siblings as $sib ) : $is_cur = $sib['slug'] === $ctx['category']; ?>
+									<li style="--depth:<?php echo $parent_cat ? 1 : 0; ?>">
+										<a class="hs-cat-row" href="<?php echo esc_url( $sib['url'] ); ?>"<?php echo $is_cur ? ' aria-current="page"' : ''; ?>>
+											<span class="hs-radio" aria-hidden="true"></span>
+											<span class="hs-cat-name"><?php echo esc_html( $sib['name'] ); ?></span>
+											<em class="hs-fcount"><?php echo esc_html( $fa( $cat_cnt( $sib ) ) ); ?></em>
+										</a>
+									</li>
+									<?php endforeach; ?>
+								</ul>
+								<?php if ( '' !== $ctx['shop_url'] ) : ?>
+								<a class="hs-cat-all-link" href="<?php echo esc_url( $ctx['shop_url'] ); ?>"><span>همه محصولات فروشگاه</span><?php echo higer_shop_icon( 'chevron-left', 13 ); // phpcs:ignore ?></a>
+								<?php endif; ?>
+							</div>
+						</details>
+						<?php endif; ?>
+					<?php elseif ( $categories ) : ?>
 					<details class="hs-fgroup" open>
 						<summary><span><?php echo higer_shop_icon( 'bed', 15 ); // phpcs:ignore ?> دسته‌بندی و ساختار</span><?php echo higer_shop_icon( 'chevron-down', 15 ); // phpcs:ignore ?></summary>
 						<div class="hs-fbody">
@@ -2665,12 +3394,12 @@ if ( ! function_exists( 'higer_shop_render' ) ) {
 					<?php endforeach; ?>
 
 					<!-- کارت راهنمای تشک‌سنج هیگر -->
-					<?php if ( ! empty( $cfg['finder_path'] ) ) : ?>
+					<?php if ( $show_finder ) : ?>
 					<a class="hs-finder-cta" href="<?php echo esc_url( home_url( $cfg['finder_path'] ) ); ?>">
 						<span class="hs-finder-ico" aria-hidden="true"><?php echo higer_shop_icon( 'sparkles', 20 ); // phpcs:ignore ?></span>
 						<span class="hs-finder-copy">
 							<b>تشک‌سنج هیگر</b>
-							<small>مطمئن نیستید کدام مدل مناسب شماست؟ با چند سؤال بررسی کنید</small>
+							<small><?php echo esc_html( '' !== $ctx['finder_text'] ? $ctx['finder_text'] : 'مطمئن نیستید کدام مدل مناسب شماست؟ با چند سؤال بررسی کنید' ); ?></small>
 						</span>
 						<span class="hs-finder-go">شروع <?php echo higer_shop_icon( 'chevron-left', 14 ); // phpcs:ignore ?></span>
 					</a>
@@ -2687,19 +3416,21 @@ if ( ! function_exists( 'higer_shop_render' ) ) {
 				<!-- نوار بالای لیست در دسکتاپ -->
 				<div class="hs-toolbar">
 					<div class="hs-result-meta" role="status" aria-live="polite">
-						<span>نمایش <b data-hs-shown-count><?php echo esc_html( $total_fa ); ?></b> از <?php echo esc_html( $total_fa ); ?> محصول</span>
+						<span>نمایش <b data-hs-shown-count><?php echo esc_html( $vis_fa ); ?></b> از <?php echo esc_html( $total_fa ); ?> <?php echo $is_cat_page ? esc_html( 'محصول در ' . $ctx['cat_name'] ) : 'محصول'; ?></span>
 						<span class="hs-size-banner" data-hs-size-banner hidden></span>
 					</div>
 					<div class="hs-toolbar-end">
 						<label class="hs-sort-box">
 							<span>مرتب‌سازی:</span>
 							<select data-hs-sort>
-								<option value="default">پیش‌فرض فروشگاه</option>
+								<option value="default"><?php echo $is_cat_page ? 'پیش‌فرض دسته' : 'پیش‌فرض فروشگاه'; ?></option>
 								<option value="price-asc">ارزان‌ترین</option>
 								<option value="price-desc">گران‌ترین</option>
-								<option value="warranty-desc">بیشترین گارانتی</option>
+								<?php if ( $has_warranty ) : ?><option value="warranty-desc">بیشترین گارانتی</option><?php endif; ?>
+								<?php if ( $has_firmness ) : ?>
 								<option value="firm-asc">نرم‌ترین به سفت‌ترین</option>
 								<option value="firm-desc">سفت‌ترین به نرم‌ترین</option>
+								<?php endif; ?>
 								<option value="name-asc">حروف الفبا</option>
 							</select>
 						</label>
@@ -2724,7 +3455,7 @@ if ( ! function_exists( 'higer_shop_render' ) ) {
 						$c_key = $p['core']['key'];
 						$p_cat = $p['primaryCat'] ? $p['primaryCat']['name'] : '';
 						?>
-					<article class="hs-card<?php echo $p['inStock'] ? '' : ' is-out'; ?>" data-hs-card="<?php echo (int) $p['id']; ?>">
+					<article class="hs-card<?php echo $p['inStock'] ? '' : ' is-out'; ?>" data-hs-card="<?php echo (int) $p['id']; ?>"<?php echo ( ! $p['inStock'] && $hide_out ) ? ' hidden' : ''; ?>>
 						<div class="hs-card-media">
 							<a class="hs-card-img-link" href="<?php echo esc_url( $p['url'] ); ?>" data-hs-link="<?php echo (int) $p['id']; ?>">
 								<?php if ( '' !== $p['image'] ) : ?>
@@ -2801,19 +3532,40 @@ if ( ! function_exists( 'higer_shop_render' ) ) {
 					<p>می‌توانید برخی از فیلترها را بردارید یا همه فیلترها را پاک کنید تا دوباره تمام مدل‌ها نمایش داده شوند.</p>
 					<div class="hs-empty-actions">
 						<button type="button" class="hs-btn-gold" data-hs-reset><?php echo higer_shop_icon( 'reset', 16 ); // phpcs:ignore ?> پاک کردن همه فیلترها</button>
-						<?php if ( ! empty( $cfg['finder_path'] ) ) : ?><a class="hs-btn-sec" href="<?php echo esc_url( home_url( $cfg['finder_path'] ) ); ?>"><?php echo higer_shop_icon( 'sparkles', 16 ); // phpcs:ignore ?> راهنمای تشک‌سنج</a><?php endif; ?>
+						<?php if ( $is_cat_page && '' !== $ctx['shop_url'] ) : ?><a class="hs-btn-sec" href="<?php echo esc_url( $ctx['shop_url'] ); ?>">مشاهده همه محصولات فروشگاه</a><?php elseif ( $show_finder ) : ?><a class="hs-btn-sec" href="<?php echo esc_url( home_url( $cfg['finder_path'] ) ); ?>"><?php echo higer_shop_icon( 'sparkles', 16 ); // phpcs:ignore ?> راهنمای تشک‌سنج</a><?php endif; ?>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 
+	<?php if ( $is_cat_page && '' !== $ctx['long_desc'] ) : ?>
+	<!-- ===== راهنمای تکمیلی و سئوی دسته‌بندی (از توضیحات دسته در ووکامرس) ===== -->
+	<section class="hs-cat-guide-sec" aria-label="راهنمای <?php echo esc_attr( $ctx['cat_name'] ); ?>">
+		<div class="hs-wrap">
+			<div class="hs-cat-guide">
+				<span class="hs-kicker">درباره این دسته‌بندی</span>
+				<h2 class="hs-cat-guide-title">راهنمای خرید <?php echo esc_html( $ctx['cat_name'] ); ?></h2>
+				<div class="hs-cat-guide-body is-clamped" data-hs-guide-body><?php echo $ctx['long_desc']; // phpcs:ignore ?></div>
+				<button type="button" class="hs-cat-guide-btn" data-hs-guide-toggle aria-expanded="false">
+					<span>مطالعه کامل راهنمای دسته</span>
+					<?php echo higer_shop_icon( 'chevron-down', 15 ); // phpcs:ignore ?>
+				</button>
+			</div>
+		</div>
+	</section>
+	<?php endif; ?>
+
 	<!-- ===== نوار تماس پایین صفحه ===== -->
 	<section class="hs-cta">
 		<div class="hs-wrap hs-cta-inner">
 			<div>
 				<span class="hs-kicker is-dark">مشاوره خرید</span>
+				<?php if ( $is_cat_page ) : ?>
+				<h2>برای انتخاب بهترین مدل <span class="hs-gold-text"><?php echo esc_html( $ctx['cat_name'] ); ?></span> راهنمایی می‌خواهید؟</h2>
+				<?php else : ?>
 				<h2>برای انتخاب سایز یا مدل نیاز به <span class="hs-gold-text">راهنمایی</span> دارید؟</h2>
+				<?php endif; ?>
 				<p><?php echo higer_shop_icon( 'map', 14 ); // phpcs:ignore ?> <?php echo esc_html( $store['address'] ); ?></p>
 				<p><?php echo higer_shop_icon( 'clock', 14 ); // phpcs:ignore ?> <?php echo esc_html( $store['hours'] ); ?></p>
 			</div>
@@ -2856,7 +3608,7 @@ if ( ! function_exists( 'higer_shop_render' ) ) {
 						<span>قیمت در سایز:</span>
 						<select data-hs-cmp-size>
 							<option value="">محدوده قیمت</option>
-							<?php foreach ( $facets['sizes'] as $sz ) : ?>
+							<?php $cmp_sizes = ! empty( $catalog['facets']['sizes'] ) ? $catalog['facets']['sizes'] : $facets['sizes']; foreach ( $cmp_sizes as $sz ) : ?>
 							<option value="<?php echo esc_attr( $sz['slug'] ); ?>"><?php echo esc_html( $sz['label'] . ( '' !== $sz['sub'] ? ' (' . $sz['sub'] . ')' : '' ) ); ?></option>
 							<?php endforeach; ?>
 						</select>
@@ -2877,10 +3629,96 @@ if ( function_exists( 'add_shortcode' ) && ! shortcode_exists( 'higer_shop' ) ) 
 	add_shortcode( 'higer_shop', 'higer_shop_render' );
 }
 
+if ( ! function_exists( 'higer_shop_is_elementor_preview' ) ) {
+	/** جلوگیری از تداخل هنگام باز کردن ویرایشگر المنتور. */
+	function higer_shop_is_elementor_preview() {
+		if ( isset( $_GET['elementor-preview'] ) || isset( $_GET['preview_id'] ) ) { // phpcs:ignore
+			return true;
+		}
+		if ( class_exists( '\Elementor\Plugin' ) ) {
+			$el = \Elementor\Plugin::$instance;
+			if ( isset( $el->preview ) && method_exists( $el->preview, 'is_preview_mode' ) && $el->preview->is_preview_mode() ) {
+				return true;
+			}
+			if ( isset( $el->editor ) && method_exists( $el->editor, 'is_edit_mode' ) && $el->editor->is_edit_mode() ) {
+				return true;
+			}
+		}
+		return false;
+	}
+}
+
+if ( ! function_exists( 'higer_shop_archive_already_has_shortcode' ) ) {
+	/** اگر قالب Product Archive المنتور خودش شورت‌کد [higer_shop] را دارد، دوباره رندر نشود. */
+	function higer_shop_archive_already_has_shortcode() {
+		if ( ! class_exists( '\ElementorPro\Modules\ThemeBuilder\Module' ) ) {
+			return false;
+		}
+		try {
+			$module = \ElementorPro\Modules\ThemeBuilder\Module::instance();
+			if ( ! $module || ! method_exists( $module, 'get_conditions_manager' ) ) {
+				return false;
+			}
+			$cm = $module->get_conditions_manager();
+			if ( ! $cm || ! method_exists( $cm, 'get_documents_for_location' ) ) {
+				return false;
+			}
+			$docs = (array) $cm->get_documents_for_location( 'archive' );
+			foreach ( array_keys( $docs ) as $doc_id ) {
+				$doc_id = (int) $doc_id;
+				if ( $doc_id <= 0 ) {
+					continue;
+				}
+				$data = (string) get_post_meta( $doc_id, '_elementor_data', true );
+				if ( false !== strpos( $data, '[higer_shop' ) ) {
+					return true;
+				}
+				$post = function_exists( 'get_post' ) ? get_post( $doc_id ) : null;
+				if ( $post && ! empty( $post->post_content ) && false !== strpos( (string) $post->post_content, '[higer_shop' ) ) {
+					return true;
+				}
+			}
+		} catch ( \Throwable $e ) {
+			return false;
+		}
+		return false;
+	}
+}
+
 if ( ! function_exists( 'higer_shop_auto_replace' ) ) {
-	/** حالت بدون المنتور: آرشیو پیش‌فرض محصولات ووکامرس با این اسنیپت جایگزین می‌شود. */
+	/**
+	 * جایگزینی خودکار صفحات دسته‌بندی ووکامرس (/product-category/...) با حفظ کامل هدر و فوتر سایت
+	 * (حتی در صورت وجود قالب قدیمی Product Archive در المنتور پرو، و بدون دوباره‌کاری اگر شورت‌کد [higer_shop]
+	 * داخل قالب المنتور گذاشته شده باشد).
+	 */
 	function higer_shop_auto_replace() {
+		if ( is_admin() || ( function_exists( 'wp_doing_ajax' ) && wp_doing_ajax() ) || is_feed() || ( function_exists( 'is_embed' ) && is_embed() ) || is_404() ) {
+			return;
+		}
 		$cfg = higer_shop_config();
+
+		/* ۱. صفحات دسته‌بندی محصول (/product-category/...) */
+		$is_cat = function_exists( 'is_product_category' ) && is_product_category();
+		if ( $is_cat && ! empty( $cfg['auto_replace_categories'] ) && ! higer_shop_is_elementor_preview() ) {
+			$term = function_exists( 'get_queried_object' ) ? get_queried_object() : null;
+			if ( is_object( $term ) && isset( $term->taxonomy ) && 'product_cat' === $term->taxonomy && ! higer_shop_archive_already_has_shortcode() ) {
+				add_filter( 'body_class', function ( $classes ) use ( $term ) {
+					$classes[] = 'higer-shop-cat-archive';
+					$classes[] = 'higer-shop-cat-' . sanitize_html_class( (string) $term->slug );
+					return $classes;
+				} );
+				if ( function_exists( 'get_header' ) && function_exists( 'get_footer' ) ) {
+					get_header( 'shop' );
+					echo '<main id="content" class="site-main higer-shop-archive-main" role="main">';
+					echo higer_shop_render(); // phpcs:ignore
+					echo '</main>';
+					get_footer( 'shop' );
+					exit;
+				}
+			}
+		}
+
+		/* ۲. حالت بدون المنتور برای صفحه اصلی فروشگاه و سایر آرشیوهای محصول */
 		if ( empty( $cfg['auto_replace'] ) ) {
 			return;
 		}
